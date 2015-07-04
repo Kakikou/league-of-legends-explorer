@@ -19,6 +19,7 @@ import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.StaticDataApi;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionDto;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionListDto;
 import com.kaki.leagueoflegendsexplorer.interaction.LaunchFragment;
+import com.kaki.leagueoflegendsexplorer.interaction.ToolbarInteraction;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -37,6 +38,7 @@ public class ListChampionsFragment extends Fragment implements ChampionsAdapter.
     private StaticDataApi m_staticDataApi;
     private ChampionsAdapter m_adapter;
     private LaunchFragment m_launchFragment;
+    private ToolbarInteraction toolbarInteraction;
 
     @Bind(R.id.recyclerview)
     RecyclerView m_recyclerview;
@@ -65,6 +67,12 @@ public class ListChampionsFragment extends Fragment implements ChampionsAdapter.
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        toolbarInteraction.setTitle("Champions");
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
@@ -77,6 +85,11 @@ public class ListChampionsFragment extends Fragment implements ChampionsAdapter.
         m_championV12Api = new ChampionV12Api(activity);
         try {
             m_launchFragment = (LaunchFragment) activity;
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+        }
+        try {
+            toolbarInteraction = (ToolbarInteraction) activity;
         } catch (ClassCastException e) {
             e.printStackTrace();
         }
