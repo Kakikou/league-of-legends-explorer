@@ -1,6 +1,18 @@
 <resources>
     <string name="app_name">League Of Legends Explorer</string>
 
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <!-- Error API -->
+    <string name="error_400">Bad request</string>
+    <string name="error_401">Unauthorized</string>
+    <string name="error_429">Rate limit exceeded</string>
+    <string name="error_500">Internal server error</string>
+    <string name="error_503">Service unavailable</string>
+    <!-- -->
+
+    <!-- Error-->
+    <string name="error_with_server">Riot\'s server is not recheable.</string>
+    <string name="no_internet">Your are not connected to internet.</string>
+    <!-- -->
 </resources>
