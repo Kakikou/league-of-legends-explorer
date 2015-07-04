@@ -53,11 +53,11 @@ public class ChampionsAdapter extends RecyclerView.Adapter<ChampionsAdapter.View
         return false;
     }
 
-    private void animTextView(final TextView textView) {
+    private void animTextView(View view) {
         AnimatorSet anim = new AnimatorSet();
 
         anim.setDuration(2000);
-        anim.play(ObjectAnimator.ofFloat(textView, View.ROTATION, 0, -45));
+        anim.play(ObjectAnimator.ofFloat(view, View.ROTATION, 0, -45));
         anim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(Animator animation) {
@@ -88,7 +88,7 @@ public class ChampionsAdapter extends RecyclerView.Adapter<ChampionsAdapter.View
                 .into(viewHolder.image);
         if (isFreeChamp(championDto.id)) {
             viewHolder.free.setVisibility(View.VISIBLE);
-            animTextView(viewHolder.free);
+            viewHolder.free.setRotation(-45);
         } else {
             viewHolder.free.setVisibility(View.GONE);
             viewHolder.free.setRotation(0);
