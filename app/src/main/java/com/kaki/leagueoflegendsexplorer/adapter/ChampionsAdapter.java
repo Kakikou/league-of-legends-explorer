@@ -1,5 +1,9 @@
 package com.kaki.leagueoflegendsexplorer.adapter;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,14 +27,47 @@ import butterknife.ButterKnife;
  */
 public class ChampionsAdapter extends RecyclerView.Adapter<ChampionsAdapter.ViewHolder> {
 
+    private List<Integer> m_freeList;
     private List<ChampionDto> m_listChampions;
 
     public ChampionsAdapter() {
         m_listChampions = new ArrayList<>();
+        m_freeList = new ArrayList<>();
+    }
+
+    public void setFreeChamp(List<Integer> freeList) {
+        m_freeList = freeList;
     }
 
     public void add(ChampionDto championDto) {
         m_listChampions.add(championDto);
+    }
+
+    private boolean isFreeChamp(int id) {
+        for (Integer i : m_freeList) {
+            if (id == i)
+                return true;
+        }
+        return false;
+    }
+
+    private void animTextView(final TextView textView) {
+        AnimatorSet anim = new AnimatorSet();
+
+        anim.setDuration(2000);
+        anim.play(ObjectAnimator.ofFloat(textView, View.ROTATION, 0, -45));
+        anim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+            }
+        });
+        anim.start();
     }
 
     @Override
@@ -47,6 +84,13 @@ public class ChampionsAdapter extends RecyclerView.Adapter<ChampionsAdapter.View
         Picasso.with(viewHolder.itemView.getContext())
                 .load("http://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/" + championDto.image.full)
                 .into(viewHolder.image);
+        if (isFreeChamp(championDto.id)) {
+            viewHolder.free.setVisibility(View.VISIBLE);
+            animTextView(viewHolder.free);
+        } else {
+            viewHolder.free.setVisibility(View.GONE);
+            viewHolder.free.setRotation(0);
+        }
     }
 
     @Override
@@ -59,6 +103,8 @@ public class ChampionsAdapter extends RecyclerView.Adapter<ChampionsAdapter.View
         ImageView image;
         @Bind(R.id.name_champion)
         TextView name;
+        @Bind(R.id.free_champion)
+        TextView free;
 
         ViewHolder(View view) {
             super(view);

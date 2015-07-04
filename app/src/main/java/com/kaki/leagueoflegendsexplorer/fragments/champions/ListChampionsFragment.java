@@ -14,10 +14,12 @@ import android.view.ViewGroup;
 import com.kaki.leagueoflegendsexplorer.R;
 import com.kaki.leagueoflegendsexplorer.adapter.ChampionsAdapter;
 import com.kaki.leagueoflegendsexplorer.api.HttpRequest;
+import com.kaki.leagueoflegendsexplorer.api.riot.champion_v1_2.ChampionV12Api;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.StaticDataApi;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionDto;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionListDto;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import butterknife.Bind;
@@ -28,8 +30,9 @@ import retrofit.client.Response;
 /**
  * Created by kevinrodrigues on 04/07/15.
  */
-public class ListChampionsFragment extends Fragment implements HttpRequest<ChampionListDto> {
+public class ListChampionsFragment extends Fragment {
 
+    private ChampionV12Api m_championV12Api;
     private StaticDataApi m_staticDataApi;
     private ChampionsAdapter m_adapter;
 
@@ -55,25 +58,46 @@ public class ListChampionsFragment extends Fragment implements HttpRequest<Champ
         m_recyclerview.setAdapter(m_adapter);
         m_recyclerview.setHasFixedSize(true);
         m_recyclerview.setLayoutManager(layoutManager);
-        m_staticDataApi.getChampionsList(getActivity(), this);
+        m_championV12Api.getFreeChampList(getActivity(), OnGetFreeChampionList);
+        m_staticDataApi.getChampionsList(getActivity(), OnGetChampionList);
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         m_staticDataApi = new StaticDataApi(activity);
+        m_championV12Api = new ChampionV12Api(activity);
     }
 
-    @Override
-    public void success(ChampionListDto championListDto, Response response) {
-        for (Map.Entry<String, ChampionDto> entry : championListDto.data.entrySet()) {
-            m_adapter.add(entry.getValue());
+    private HttpRequest<ChampionListDto> OnGetChampionList = new HttpRequest<ChampionListDto>() {
+        @Override
+        public void success(ChampionListDto championListDto, Response response) {
+            for (Map.Entry<String, ChampionDto> entry : championListDto.data.entrySet()) {
+                m_adapter.add(entry.getValue());
+            }
+            m_adapter.notifyDataSetChanged();
         }
-        m_adapter.notifyDataSetChanged();
-    }
 
-    @Override
-    public void failure(RetrofitError error) {
+        @Override
+        public void failure(RetrofitError error) {
 
-    }
+        }
+    };
+
+    private HttpRequest<com.kaki.leagueoflegendsexplorer.api.riot.champion_v1_2.models.ChampionListDto> OnGetFreeChampionList = new HttpRequest<com.kaki.leagueoflegendsexplorer.api.riot.champion_v1_2.models.ChampionListDto>() {
+        @Override
+        public void success(com.kaki.leagueoflegendsexplorer.api.riot.champion_v1_2.models.ChampionListDto championListDto, Response response) {
+            ArrayList<Integer> list = new ArrayList<>();
+            for (com.kaki.leagueoflegendsexplorer.api.riot.champion_v1_2.models.ChampionDto championDto : championListDto.champions) {
+                list.add(championDto.id);
+            }
+            m_adapter.setFreeChamp(list);
+            m_adapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void failure(RetrofitError error) {
+
+        }
+    };
 }
