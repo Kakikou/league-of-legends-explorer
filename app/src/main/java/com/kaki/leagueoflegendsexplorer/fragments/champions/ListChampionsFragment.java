@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kaki.leagueoflegendsexplorer.R;
+import com.kaki.leagueoflegendsexplorer.adapter.ChampionsAdapter;
 import com.kaki.leagueoflegendsexplorer.api.HttpRequest;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.StaticDataApi;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionDto;
@@ -26,33 +28,16 @@ import retrofit.client.Response;
 /**
  * Created by kevinrodrigues on 04/07/15.
  */
-public class ListChampionsFragment extends Fragment {
+public class ListChampionsFragment extends Fragment implements HttpRequest<ChampionListDto> {
 
     private StaticDataApi m_staticDataApi;
+    private ChampionsAdapter m_adapter;
 
     @Bind(R.id.recyclerview)
     RecyclerView m_recyclerview;
 
     public ListChampionsFragment() {
 
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        m_staticDataApi.getChampionsList(getActivity(), new HttpRequest<ChampionListDto>() {
-            @Override
-            public void success(ChampionListDto championListDto, Response response) {
-                for (Map.Entry<String, ChampionDto> entry : championListDto.data.entrySet()) {
-                    Log.d("Explorer", "Champion " + entry.getValue().name);
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-
-            }
-        });
     }
 
     @Nullable
@@ -65,11 +50,30 @@ public class ListChampionsFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
+        m_adapter = new ChampionsAdapter();
+        m_recyclerview.setAdapter(m_adapter);
+        m_recyclerview.setHasFixedSize(true);
+        m_recyclerview.setLayoutManager(layoutManager);
+        m_staticDataApi.getChampionsList(getActivity(), this);
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         m_staticDataApi = new StaticDataApi(activity);
+    }
+
+    @Override
+    public void success(ChampionListDto championListDto, Response response) {
+        for (Map.Entry<String, ChampionDto> entry : championListDto.data.entrySet()) {
+            m_adapter.add(entry.getValue());
+        }
+        m_adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void failure(RetrofitError error) {
+
     }
 }
