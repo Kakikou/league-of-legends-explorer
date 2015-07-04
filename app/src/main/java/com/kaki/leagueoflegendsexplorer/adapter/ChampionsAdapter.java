@@ -29,8 +29,10 @@ public class ChampionsAdapter extends RecyclerView.Adapter<ChampionsAdapter.View
 
     private List<Integer> m_freeList;
     private List<ChampionDto> m_listChampions;
+    private OnTouchChampionListener m_onTouchChampionListener;
 
-    public ChampionsAdapter() {
+    public ChampionsAdapter(OnTouchChampionListener onTouchChampionListener) {
+        m_onTouchChampionListener = onTouchChampionListener;
         m_listChampions = new ArrayList<>();
         m_freeList = new ArrayList<>();
     }
@@ -98,7 +100,7 @@ public class ChampionsAdapter extends RecyclerView.Adapter<ChampionsAdapter.View
         return m_listChampions.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         @Bind(R.id.image_champion)
         ImageView image;
         @Bind(R.id.name_champion)
@@ -109,6 +111,16 @@ public class ChampionsAdapter extends RecyclerView.Adapter<ChampionsAdapter.View
         ViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    m_onTouchChampionListener.onTouchChampion(v, m_listChampions.get(getAdapterPosition()));
+                }
+            });
         }
+    }
+
+    public interface OnTouchChampionListener {
+        void onTouchChampion(View view, ChampionDto championDto);
     }
 }

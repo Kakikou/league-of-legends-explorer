@@ -30,7 +30,7 @@ import retrofit.client.Response;
 /**
  * Created by kevinrodrigues on 04/07/15.
  */
-public class ListChampionsFragment extends Fragment {
+public class ListChampionsFragment extends Fragment implements ChampionsAdapter.OnTouchChampionListener {
 
     private ChampionV12Api m_championV12Api;
     private StaticDataApi m_staticDataApi;
@@ -54,7 +54,7 @@ public class ListChampionsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
-        m_adapter = new ChampionsAdapter();
+        m_adapter = new ChampionsAdapter(this);
         m_recyclerview.setAdapter(m_adapter);
         m_recyclerview.setHasFixedSize(true);
         m_recyclerview.setLayoutManager(layoutManager);
@@ -67,6 +67,11 @@ public class ListChampionsFragment extends Fragment {
         super.onAttach(activity);
         m_staticDataApi = new StaticDataApi(activity);
         m_championV12Api = new ChampionV12Api(activity);
+    }
+
+    @Override
+    public void onTouchChampion(View view, ChampionDto championDto) {
+        Log.d("Champ", "Champ = " + championDto.name);
     }
 
     private HttpRequest<ChampionListDto> OnGetChampionList = new HttpRequest<ChampionListDto>() {
