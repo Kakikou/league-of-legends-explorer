@@ -18,6 +18,7 @@ import com.kaki.leagueoflegendsexplorer.api.riot.champion_v1_2.ChampionV12Api;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.StaticDataApi;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionDto;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionListDto;
+import com.kaki.leagueoflegendsexplorer.interaction.LaunchFragment;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -35,6 +36,7 @@ public class ListChampionsFragment extends Fragment implements ChampionsAdapter.
     private ChampionV12Api m_championV12Api;
     private StaticDataApi m_staticDataApi;
     private ChampionsAdapter m_adapter;
+    private LaunchFragment m_launchFragment;
 
     @Bind(R.id.recyclerview)
     RecyclerView m_recyclerview;
@@ -63,15 +65,27 @@ public class ListChampionsFragment extends Fragment implements ChampionsAdapter.
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         m_staticDataApi = new StaticDataApi(activity);
         m_championV12Api = new ChampionV12Api(activity);
+        try {
+            m_launchFragment = (LaunchFragment) activity;
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void onTouchChampion(View view, ChampionDto championDto) {
-        Log.d("Champ", "Champ = " + championDto.name);
+        DetailChampionsFragment fragment = DetailChampionsFragment.newInstance(championDto);
+        m_launchFragment.launchFragment(fragment);
     }
 
     private HttpRequest<ChampionListDto> OnGetChampionList = new HttpRequest<ChampionListDto>() {
