@@ -39,8 +39,8 @@ public class ListChampionsFragment extends Fragment implements ChampionsAdapter.
     @Bind(R.id.recyclerview)
     RecyclerView m_recyclerview;
 
-    public ListChampionsFragment() {
-
+    public static ListChampionsFragment newInstance() {
+        return new ListChampionsFragment();
     }
 
     @Nullable

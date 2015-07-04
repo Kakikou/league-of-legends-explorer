@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction()
                 .addToBackStack(null)
-                .add(R.id.fragment_container, new ListChampionsFragment())
+                .add(R.id.fragment_container, ListChampionsFragment.newInstance())
                 .commit();
     }
 }
