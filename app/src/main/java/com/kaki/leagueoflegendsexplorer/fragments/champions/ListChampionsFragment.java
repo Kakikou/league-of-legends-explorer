@@ -99,6 +99,19 @@ public class ListChampionsFragment extends Fragment implements ChampionsAdapter.
     public void onTouchChampion(View view, ChampionDto championDto) {
         DetailChampionsFragment fragment = DetailChampionsFragment.newInstance(championDto);
         m_launchFragment.launchFragment(fragment);
+        /*
+        m_staticDataApi.getChampion(getActivity(), championDto.id, new HttpRequest<ChampionDto>() {
+            @Override
+            public void success(ChampionDto championDto, Response response) {
+                DetailChampionsFragment fragment = DetailChampionsFragment.newInstance(championDto);
+                m_launchFragment.launchFragment(fragment);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+            }
+        });
+        */
     }
 
     private HttpRequest<ChampionListDto> OnGetChampionList = new HttpRequest<ChampionListDto>() {

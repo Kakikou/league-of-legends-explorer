@@ -10,7 +10,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        android:background="@color/red"/>
 
     <FrameLayout
         android:id="@+id/fragment_container"
