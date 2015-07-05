@@ -10,6 +10,7 @@
         <!--   theme UI controls like checkboxes and text fields -->
         <item name="colorAccent">@color/red_white</item>
         <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="TabLayout" parent="Widget.Design.TabLayout">
