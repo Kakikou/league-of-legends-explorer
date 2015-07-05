@@ -7,15 +7,19 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.kaki.leagueoflegendsexplorer.R;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionDto;
+import com.kaki.leagueoflegendsexplorer.fragments.champions.Detail.StatsChampion;
 import com.kaki.leagueoflegendsexplorer.interaction.ToolbarInteraction;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -26,6 +30,7 @@ import butterknife.ButterKnife;
 public class DetailChampionsFragment extends Fragment {
 
     private ChampionDto m_champion;
+    private DetailAdapter detailAdapter;
     private ToolbarInteraction toolbarInteraction;
 
     @Bind(R.id.sliding_tabs)
@@ -54,9 +59,10 @@ public class DetailChampionsFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        viewPager.setAdapter(new DetailAdapter(getFragmentManager()));
-        tabLayout.addTab(tabLayout.newTab().setText("First"));
-        tabLayout.addTab(tabLayout.newTab().setText("Second"));
+        detailAdapter = new DetailAdapter(getChildFragmentManager());
+        detailAdapter.addFragment(StatsChampion.newInstance(m_champion), StatsChampion.TITLE_TAB);
+        detailAdapter.addFragment(StatsChampion.newInstance(m_champion), StatsChampion.TITLE_TAB);
+        viewPager.setAdapter(detailAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }
 
@@ -70,6 +76,7 @@ public class DetailChampionsFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+        detailAdapter = null;
     }
 
     @Override
@@ -82,20 +89,35 @@ public class DetailChampionsFragment extends Fragment {
         }
     }
 
-    private static class DetailAdapter extends FragmentPagerAdapter {
+    private class DetailAdapter extends FragmentPagerAdapter {
+
+        private List<Fragment> fragments;
+        private List<String> titleFragments;
 
         public DetailAdapter(FragmentManager manager) {
             super(manager);
+            fragments = new ArrayList<>();
+            titleFragments = new ArrayList<>();
+        }
+
+        public void addFragment(Fragment fragment, String title) {
+            fragments.add(fragment);
+            titleFragments.add(title);
         }
 
         @Override
         public Fragment getItem(int position) {
-            return new Fragment();
+            return fragments.get(position);
         }
 
         @Override
         public int getCount() {
-            return 2;
+            return fragments.size();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return titleFragments.get(position);
         }
     }
 }
