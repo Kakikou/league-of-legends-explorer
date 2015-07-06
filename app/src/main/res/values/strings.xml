@@ -16,6 +16,11 @@
     <string name="no_internet">Your are not connected to internet.</string>
     <!-- -->
 
+    <!-- SkillChampionAdapter -->
+    <string name="skill_no_cost">No cost</string>
+    <string name="passive">Passive</string>
+    <!-- -->
+
     <!-- Drawer -->
     <string name="menu_champions">Champions</string>
     <string name="history_games">History games</string>

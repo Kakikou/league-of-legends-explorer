@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import com.kaki.leagueoflegendsexplorer.R;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionDto;
 import com.kaki.leagueoflegendsexplorer.fragments.champions.Detail.LoreChampion;
+import com.kaki.leagueoflegendsexplorer.fragments.champions.Detail.SkillsChampion;
 import com.kaki.leagueoflegendsexplorer.fragments.champions.Detail.StatsChampion;
 import com.kaki.leagueoflegendsexplorer.interaction.ToolbarInteraction;
 
@@ -62,6 +63,7 @@ public class DetailChampionsFragment extends Fragment {
         ButterKnife.bind(this, view);
         detailAdapter = new DetailAdapter(getChildFragmentManager());
         detailAdapter.addFragment(StatsChampion.newInstance(m_champion), StatsChampion.TITLE_TAB);
+        detailAdapter.addFragment(SkillsChampion.newInstance(m_champion), SkillsChampion.TITLE_TAB);
         detailAdapter.addFragment(LoreChampion.newInstance(m_champion), LoreChampion.TITLE_TAB);
         viewPager.setAdapter(detailAdapter);
         tabLayout.setupWithViewPager(viewPager);
