@@ -21,6 +21,12 @@
     <string name="passive">Passive</string>
     <!-- -->
 
+    <!-- FullSizeSkin -->
+    <string name="set_wallpaper">Set wallpaper ?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <!-- -->
+
     <!-- Drawer -->
     <string name="menu_champions">Champions</string>
     <string name="history_games">History games</string>
