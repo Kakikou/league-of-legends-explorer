@@ -8,6 +8,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
@@ -21,7 +22,8 @@ import com.kaki.leagueoflegendsexplorer.interaction.ToolbarInteraction;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements LaunchFragment,
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
+        LaunchFragment,
         ToolbarInteraction {
 
     @Bind(R.id.toolbar)
@@ -30,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements LaunchFragment,
     DrawerLayout drawerLayout;
     @Bind(R.id.navigation_view)
     NavigationView navigationView;
+
+    private ActionBarDrawerToggle toggle;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,21 +42,10 @@ public class MainActivity extends AppCompatActivity implements LaunchFragment,
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.navigation_item_champion:
-                        break;
-                    case R.id.navigation_item_history:
-                        break;
-                    default:
-                        break;
-                }
-                drawerLayout.closeDrawers();
-                return true;
-            }
-        });
+        navigationView.setNavigationItemSelectedListener(this);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0);
+        drawerLayout.setDrawerListener(toggle);
+        toggle.syncState();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, ListChampionsFragment.newInstance())
                 .commit();
@@ -100,5 +93,20 @@ public class MainActivity extends AppCompatActivity implements LaunchFragment,
         if (actionBar != null) {
             actionBar.hide();
         }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.navigation_item_champion:
+                break;
+            case R.id.navigation_item_history:
+                break;
+            default:
+                break;
+        }
+        drawerLayout.closeDrawers();
+        toggle.syncState();
+        return true;
     }
 }
