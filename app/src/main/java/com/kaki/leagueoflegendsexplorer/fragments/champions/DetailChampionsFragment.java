@@ -17,6 +17,7 @@ import com.kaki.leagueoflegendsexplorer.R;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionDto;
 import com.kaki.leagueoflegendsexplorer.fragments.champions.Detail.LoreChampion;
 import com.kaki.leagueoflegendsexplorer.fragments.champions.Detail.SkillsChampion;
+import com.kaki.leagueoflegendsexplorer.fragments.champions.Detail.SkinChampion;
 import com.kaki.leagueoflegendsexplorer.fragments.champions.Detail.StatsChampion;
 import com.kaki.leagueoflegendsexplorer.fragments.champions.Detail.TipsChampion;
 import com.kaki.leagueoflegendsexplorer.interaction.ToolbarInteraction;
@@ -67,6 +68,7 @@ public class DetailChampionsFragment extends Fragment {
         detailAdapter.addFragment(TipsChampion.newInstance(m_champion), TipsChampion.TITLE_TAB);
         detailAdapter.addFragment(SkillsChampion.newInstance(m_champion), SkillsChampion.TITLE_TAB);
         detailAdapter.addFragment(LoreChampion.newInstance(m_champion), LoreChampion.TITLE_TAB);
+        detailAdapter.addFragment(SkinChampion.newInstance(m_champion), SkinChampion.TITLE_TAB);
         viewPager.setAdapter(detailAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }
@@ -85,7 +87,7 @@ public class DetailChampionsFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
+        public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
             toolbarInteraction = (ToolbarInteraction) activity;
