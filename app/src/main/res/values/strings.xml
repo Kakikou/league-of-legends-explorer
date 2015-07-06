@@ -20,4 +20,10 @@
     <string name="skill_no_cost">No cost</string>
     <string name="passive">Passive</string>
     <!-- -->
+
+    <!-- FullSizeSkin -->
+    <string name="set_wallpaper">Set wallpaper ?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <!-- -->
 </resources>

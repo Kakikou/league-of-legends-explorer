@@ -98,7 +98,7 @@ public class ListChampionsFragment extends Fragment implements ChampionsAdapter.
     @Override
     public void onTouchChampion(View view, ChampionDto championDto) {
         DetailChampionsFragment fragment = DetailChampionsFragment.newInstance(championDto);
-        m_launchFragment.launchFragment(fragment);
+        m_launchFragment.addFragment(fragment);
         /*
         m_staticDataApi.getChampion(getActivity(), championDto.id, new HttpRequest<ChampionDto>() {
             @Override
