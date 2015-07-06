@@ -15,4 +15,9 @@
     <string name="error_with_server">Riot\'s server is not recheable.</string>
     <string name="no_internet">Your are not connected to internet.</string>
     <!-- -->
+
+    <!-- Drawer -->
+    <string name="menu_champions">Champions</string>
+    <string name="history_games">History games</string>
+    <!-- -->
 </resources>
