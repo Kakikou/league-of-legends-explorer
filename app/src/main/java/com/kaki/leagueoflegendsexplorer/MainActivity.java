@@ -67,11 +67,38 @@ public class MainActivity extends AppCompatActivity implements LaunchFragment,
     }
 
     @Override
+    public void addFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(R.anim.slide_up_in, 0, 0, R.anim.slide_up_out)
+                .addToBackStack(null)
+                .add(R.id.fragment_container, fragment)
+                .commit();
+    }
+
+    @Override
     public void setTitle(String title) {
         ActionBar actionBar = getSupportActionBar();
 
         if (actionBar != null) {
             actionBar.setTitle(title);
+        }
+    }
+
+    @Override
+    public void showBar() {
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.show();
+        }
+    }
+
+    @Override
+    public void hideBar() {
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.hide();
         }
     }
 }

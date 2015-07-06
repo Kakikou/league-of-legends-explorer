@@ -8,4 +8,6 @@ import android.support.v4.view.ViewPager;
 public interface ToolbarInteraction {
 
     void setTitle(String title);
+    void showBar();
+    void hideBar();
 }
