@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kaki.leagueoflegendsexplorer.R;
+import com.kaki.leagueoflegendsexplorer.api.riot.UrlImage;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionDto;
 import com.squareup.picasso.Picasso;
 
@@ -84,7 +85,7 @@ public class ChampionsAdapter extends RecyclerView.Adapter<ChampionsAdapter.View
 
         viewHolder.name.setText(championDto.name);
         Picasso.with(viewHolder.itemView.getContext())
-                .load("http://ddragon.leagueoflegends.com/cdn/5.2.1/img/champion/" + championDto.image.full)
+                .load(UrlImage.CHAMPION_URL + championDto.image.full)
                 .into(viewHolder.image);
         if (isFreeChamp(championDto.id)) {
             viewHolder.free.setVisibility(View.VISIBLE);
