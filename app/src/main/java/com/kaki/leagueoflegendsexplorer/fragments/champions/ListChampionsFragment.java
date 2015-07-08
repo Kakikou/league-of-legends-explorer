@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
 import com.kaki.leagueoflegendsexplorer.R;
 import com.kaki.leagueoflegendsexplorer.adapter.ChampionsAdapter;
 import com.kaki.leagueoflegendsexplorer.api.HttpRequest;
@@ -45,6 +46,11 @@ public class ListChampionsFragment extends Fragment implements ChampionsAdapter.
 
     public static ListChampionsFragment newInstance() {
         return new ListChampionsFragment();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Nullable

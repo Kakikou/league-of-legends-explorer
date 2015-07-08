@@ -14,6 +14,8 @@ import android.view.MenuItem;
 
 import android.support.v7.widget.Toolbar;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.kaki.leagueoflegendsexplorer.api.riot.champion_v1_2.models.ChampionDto;
 import com.kaki.leagueoflegendsexplorer.fragments.champions.ListChampionsFragment;
 import com.kaki.leagueoflegendsexplorer.interaction.LaunchFragment;
@@ -32,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawerLayout;
     @Bind(R.id.navigation_view)
     NavigationView navigationView;
+    @Bind(R.id.adView)
+    AdView adView;
 
     private ActionBarDrawerToggle toggle;
 
@@ -40,8 +44,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        setSupportActionBar(toolbar);
 
+        setSupportActionBar(toolbar);
+        if (BuildConfig.DEBUG) {
+            adView.loadAd(new AdRequest.Builder().addTestDevice("EB8221CB516E6DF24EBDF773A0279B36").build());
+        } else {
+            adView.loadAd(new AdRequest.Builder().build());
+        }
         navigationView.setNavigationItemSelectedListener(this);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0);
         drawerLayout.setDrawerListener(toggle);
