@@ -18,6 +18,9 @@ import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.Cha
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import butterknife.Bind;
@@ -44,6 +47,15 @@ public class ChampionsAdapter extends RecyclerView.Adapter<ChampionsAdapter.View
 
     public void add(ChampionDto championDto) {
         m_listChampions.add(championDto);
+    }
+
+    public void sortChamp() {
+        Collections.sort(m_listChampions, new Comparator<ChampionDto>() {
+            @Override
+            public int compare(ChampionDto lhs, ChampionDto rhs) {
+                return lhs.name.compareTo(rhs.name);
+            }
+        });
     }
 
     private boolean isFreeChamp(int id) {

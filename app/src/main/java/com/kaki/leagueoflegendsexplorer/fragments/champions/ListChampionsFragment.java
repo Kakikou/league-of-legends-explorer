@@ -126,6 +126,7 @@ public class ListChampionsFragment extends Fragment implements ChampionsAdapter.
             for (Map.Entry<String, ChampionDto> entry : championListDto.data.entrySet()) {
                 m_adapter.add(entry.getValue());
             }
+            m_adapter.sortChamp();
             m_adapter.notifyDataSetChanged();
         }
 
