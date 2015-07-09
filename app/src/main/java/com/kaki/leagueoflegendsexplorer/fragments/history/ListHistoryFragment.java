@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.kaki.leagueoflegendsexplorer.R;
+import com.kaki.leagueoflegendsexplorer.adapter.HistoryAdapter;
 import com.kaki.leagueoflegendsexplorer.api.HttpRequest;
 import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.MatchHistoryApi;
 import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.models.MatchSummary;
@@ -29,6 +31,7 @@ import retrofit.client.Response;
 public class ListHistoryFragment extends Fragment {
 
     private MatchHistoryApi matchHistoryApi;
+    private HistoryAdapter historyAdapter;
     private LaunchFragment m_launchFragment;
     private ToolbarInteraction toolbarInteraction;
 
@@ -42,6 +45,7 @@ public class ListHistoryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        historyAdapter = new HistoryAdapter(getActivity());
     }
 
     @Nullable
@@ -54,18 +58,18 @@ public class ListHistoryFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(historyAdapter);
         matchHistoryApi.getMatch(getActivity(), new HttpRequest<PlayerHistory>() {
             @Override
             public void success(PlayerHistory playerHistory, Response response) {
-                Log.d("PlayerHistory", "Success " + playerHistory.matches.size());
-                for (MatchSummary summary : playerHistory.matches) {
-                    Log.d("PlayerHistory", "" + summary.queueType);
-                }
+                historyAdapter.setDatas(playerHistory.matches);
+                historyAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Log.d("PlayerHistory", "Fail = " + error.getMessage());
             }
         });
     }
