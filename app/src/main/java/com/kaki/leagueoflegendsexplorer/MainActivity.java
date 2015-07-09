@@ -18,6 +18,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.kaki.leagueoflegendsexplorer.api.riot.champion_v1_2.models.ChampionDto;
 import com.kaki.leagueoflegendsexplorer.fragments.champions.ListChampionsFragment;
+import com.kaki.leagueoflegendsexplorer.fragments.history.ListHistoryFragment;
 import com.kaki.leagueoflegendsexplorer.interaction.LaunchFragment;
 import com.kaki.leagueoflegendsexplorer.interaction.ToolbarInteraction;
 
@@ -56,7 +57,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, ListChampionsFragment.newInstance())
+                //.add(R.id.fragment_container, ListChampionsFragment.newInstance())
+                .add(R.id.fragment_container, ListHistoryFragment.newInstance())
                 .commit();
     }
 

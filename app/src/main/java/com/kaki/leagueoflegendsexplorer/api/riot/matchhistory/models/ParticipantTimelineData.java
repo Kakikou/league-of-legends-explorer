@@ -7,8 +7,8 @@ public class ParticipantTimelineData {
 
     // This object contains timeline data
 
-    public long tenToTwenty;
-    public long thirtyToEnd;
-    public long twentyToThirty;
-    public long zeroToTen;
+    public double tenToTwenty;
+    public double thirtyToEnd;
+    public double twentyToThirty;
+    public double zeroToTen;
 }
