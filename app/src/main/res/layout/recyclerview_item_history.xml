@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@id/layout_type_game"
             android:textSize="20sp"
             tools:text="3/4/3" />
@@ -62,8 +62,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_centerVertical="true"
             android:layout_toRightOf="@id/stats_game"
             android:orientation="vertical">
 
@@ -75,6 +74,15 @@
                 android:gravity="center"
                 android:textSize="18sp"
                 tools:text="26:25" />
+
+            <TextView
+                android:id="@+id/create_game"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="14sp"
+                tools:text="09/07/2015" />
 
         </LinearLayout>
 

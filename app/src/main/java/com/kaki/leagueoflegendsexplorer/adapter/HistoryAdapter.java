@@ -24,9 +24,11 @@ import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.Cha
 import com.kaki.leagueoflegendsexplorer.utils.CacheChampions;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -91,7 +93,12 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         holder.modeGame.setText(gameDto.gameMode);
         holder.typeGame.setText(gameDto.gameType);
         holder.statsGame.setText(gameDto.stats.championsKilled + "/" + gameDto.stats.numDeaths + "/" + gameDto.stats.assists);
-        holder.timeGame.setText(gameDto.stats.timePlayed + "");
+        holder.timeGame.setText(String.format("%02d:%02d",
+                TimeUnit.SECONDS.toMinutes(gameDto.stats.timePlayed),
+                TimeUnit.SECONDS.toSeconds(gameDto.stats.timePlayed) % 60));
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM\nyyyy");
+        holder.createGame.setText(sdf.format(gameDto.createDate));
+        //holder.timeGame.setText(gameDto.stats.timePlayed + "");
     }
 
     @Override
@@ -115,6 +122,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         TextView statsGame;
         @Bind(R.id.time_game)
         TextView timeGame;
+        @Bind(R.id.create_game)
+        TextView createGame;
 
         ViewHolder(View view) {
             super(view);
