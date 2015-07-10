@@ -45,14 +45,11 @@ public class CacheChampions {
     public ChampionDto getChampion(int id) {
         ChampionDto championDto;
         String json;
-        Gson gson;
 
-        Log.d("Champion", "Id = " + id);
         json = sharedPreferences.getString("" + id, null);
         if (json == null)
             return null;
-        gson = new Gson();
-        championDto = gson.fromJson(json, ChampionDto.class);
+        championDto = new Gson().fromJson(json, ChampionDto.class);
         return championDto;
     }
 

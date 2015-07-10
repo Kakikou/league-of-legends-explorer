@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import com.kaki.leagueoflegendsexplorer.R;
 import com.kaki.leagueoflegendsexplorer.adapter.HistoryAdapter;
 import com.kaki.leagueoflegendsexplorer.api.HttpRequest;
+import com.kaki.leagueoflegendsexplorer.api.riot.game.GameApi;
+import com.kaki.leagueoflegendsexplorer.api.riot.game.models.RecentGamesDto;
 import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.MatchHistoryApi;
 import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.models.MatchSummary;
 import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.models.PlayerHistory;
@@ -30,7 +32,7 @@ import retrofit.client.Response;
  */
 public class ListHistoryFragment extends Fragment {
 
-    private MatchHistoryApi matchHistoryApi;
+    private GameApi gameApi;
     private HistoryAdapter historyAdapter;
     private LaunchFragment m_launchFragment;
     private ToolbarInteraction toolbarInteraction;
@@ -61,10 +63,10 @@ public class ListHistoryFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(historyAdapter);
-        matchHistoryApi.getMatch(getActivity(), new HttpRequest<PlayerHistory>() {
+        gameApi.getMatch(getActivity(), new HttpRequest<RecentGamesDto>() {
             @Override
-            public void success(PlayerHistory playerHistory, Response response) {
-                historyAdapter.setDatas(playerHistory.matches);
+            public void success(RecentGamesDto recentGamesDto, Response response) {
+                historyAdapter.setDatas(recentGamesDto.games);
                 historyAdapter.notifyDataSetChanged();
             }
 
@@ -77,7 +79,7 @@ public class ListHistoryFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        matchHistoryApi = new MatchHistoryApi(activity);
+        gameApi = new GameApi(activity);
         try {
             m_launchFragment = (LaunchFragment) activity;
         } catch (ClassCastException e) {

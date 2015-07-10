@@ -10,13 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.google.gson.Gson;
 import com.kaki.leagueoflegendsexplorer.R;
+import com.kaki.leagueoflegendsexplorer.api.riot.UrlImage;
+import com.kaki.leagueoflegendsexplorer.api.riot.game.models.GameDto;
+import com.kaki.leagueoflegendsexplorer.api.riot.game.models.RecentGamesDto;
 import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.models.MatchSummary;
 import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.models.Participant;
 import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.models.ParticipantIdentity;
 import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.models.Player;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionDto;
 import com.kaki.leagueoflegendsexplorer.utils.CacheChampions;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,19 +37,31 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     private int redColor;
     private int greenColor;
-    private List<MatchSummary> summaryList;
+    private int greyColor;
+    private List<GameDto> summaryList;
+    private List<ChampionDto> championList;
     private CacheChampions cacheChampions;
 
     public HistoryAdapter(Context context) {
         redColor = context.getResources().getColor(R.color.red_white);
         greenColor = context.getResources().getColor(R.color.green_white);
-        summaryList = new ArrayList<MatchSummary>();
+        greyColor = context.getResources().getColor(R.color.grey);
+        summaryList = new ArrayList<GameDto>();
+        championList = new ArrayList<>();
         cacheChampions = new CacheChampions(context);
     }
 
-    public void setDatas(List<MatchSummary> summaries) {
+    public void setDatas(List<GameDto> gameDtos) {
         summaryList.clear();
-        summaryList.addAll(summaries);
+        summaryList.addAll(gameDtos);
+        fetchChampions(summaryList);
+    }
+
+    public void fetchChampions(List<GameDto> games) {
+        championList.clear();
+        for (GameDto gameDto : games) {
+            championList.add(cacheChampions.getChampion(gameDto.championId));
+        }
     }
 
     @Override
@@ -55,35 +72,25 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        MatchSummary summary = summaryList.get(position);
-        Participant player = getPlayer(summary);
+        GameDto gameDto = summaryList.get(position);
+        ChampionDto championDto = championList.get(position);
 
-        if (player.stats.winner) {
+        if (gameDto.invalid) {
+            holder.cardView.setCardBackgroundColor(greyColor);
+        } else if (gameDto.stats.win) {
             holder.cardView.setCardBackgroundColor(greenColor);
         } else {
             holder.cardView.setCardBackgroundColor(redColor);
         }
+
+        Picasso.with(holder.itemView.getContext())
+                .load(UrlImage.CHAMPION_URL + championDto.image.full)
+                .into(holder.imageChampion);
     }
 
     @Override
     public int getItemCount() {
         return summaryList.size();
-    }
-
-    private Participant getPlayer(MatchSummary summary) {
-        int id = 0;
-
-        for (ParticipantIdentity identity : summary.participantIdentities) {
-            if (identity.player.summonerId == 22812174) {
-                id = identity.participantId;
-            }
-        }
-        for (Participant participant : summary.participants) {
-            if (participant.participantId == id) {
-                return participant;
-            }
-        }
-        return null;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
