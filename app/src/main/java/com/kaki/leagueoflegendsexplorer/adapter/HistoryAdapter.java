@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.kaki.leagueoflegendsexplorer.R;
@@ -86,6 +87,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         Picasso.with(holder.itemView.getContext())
                 .load(UrlImage.CHAMPION_URL + championDto.image.full)
                 .into(holder.imageChampion);
+        holder.nameChampion.setText(championDto.name);
+        holder.modeGame.setText(gameDto.gameMode);
+        holder.typeGame.setText(gameDto.gameType);
+        holder.statsGame.setText(gameDto.stats.championsKilled + "/" + gameDto.stats.numDeaths + "/" + gameDto.stats.assists);
+        holder.timeGame.setText(gameDto.stats.timePlayed + "");
     }
 
     @Override
@@ -99,6 +105,16 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         CardView cardView;
         @Bind(R.id.image_champion)
         ImageView imageChampion;
+        @Bind(R.id.name_champion)
+        TextView nameChampion;
+        @Bind(R.id.mode_game)
+        TextView modeGame;
+        @Bind(R.id.type_game)
+        TextView typeGame;
+        @Bind(R.id.stats_game)
+        TextView statsGame;
+        @Bind(R.id.time_game)
+        TextView timeGame;
 
         ViewHolder(View view) {
             super(view);

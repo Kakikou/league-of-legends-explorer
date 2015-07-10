@@ -77,6 +77,12 @@ public class ListHistoryFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        toolbarInteraction.setTitle("Match");
+    }
+
+    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         gameApi = new GameApi(activity);

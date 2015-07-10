@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    android:id="@+id/card_view"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     card_view:cardBackgroundColor="@color/green_white"
@@ -18,7 +17,66 @@
             android:id="@+id/image_champion"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_margin="10dp"/>
+            android:layout_margin="10dp"
+            tools:background="@color/red" />
+
+        <LinearLayout
+            android:id="@+id/layout_type_game"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/image_champion"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/name_champion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                tools:text="Ezreal" />
+
+            <TextView
+                android:id="@+id/mode_game"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Faille de l'invocateur" />
+
+            <TextView
+                android:id="@+id/type_game"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Normal" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/stats_game"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/layout_type_game"
+            android:textSize="20sp"
+            tools:text="3/4/3" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/stats_game"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/time_game"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="18sp"
+                tools:text="26:25" />
+
+        </LinearLayout>
 
     </RelativeLayout>
 
