@@ -10,20 +10,28 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 
 import android.support.v7.widget.Toolbar;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.kaki.leagueoflegendsexplorer.api.HttpRequest;
 import com.kaki.leagueoflegendsexplorer.api.riot.champion_v1_2.models.ChampionDto;
+import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.StaticDataApi;
+import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionListDto;
+import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionListJson;
 import com.kaki.leagueoflegendsexplorer.fragments.champions.ListChampionsFragment;
 import com.kaki.leagueoflegendsexplorer.fragments.history.ListHistoryFragment;
 import com.kaki.leagueoflegendsexplorer.interaction.LaunchFragment;
 import com.kaki.leagueoflegendsexplorer.interaction.ToolbarInteraction;
+import com.kaki.leagueoflegendsexplorer.utils.CacheChampions;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         LaunchFragment,

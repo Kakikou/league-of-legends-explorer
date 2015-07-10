@@ -1,6 +1,7 @@
 package com.kaki.leagueoflegendsexplorer.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,6 +15,8 @@ import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.models.MatchSummar
 import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.models.Participant;
 import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.models.ParticipantIdentity;
 import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.models.Player;
+import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionDto;
+import com.kaki.leagueoflegendsexplorer.utils.CacheChampions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,11 +33,13 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     private int redColor;
     private int greenColor;
     private List<MatchSummary> summaryList;
+    private CacheChampions cacheChampions;
 
     public HistoryAdapter(Context context) {
         redColor = context.getResources().getColor(R.color.red_white);
         greenColor = context.getResources().getColor(R.color.green_white);
         summaryList = new ArrayList<MatchSummary>();
+        cacheChampions = new CacheChampions(context);
     }
 
     public void setDatas(List<MatchSummary> summaries) {
@@ -74,7 +79,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
             }
         }
         for (Participant participant : summary.participants) {
-            Log.d("Participant", "" + participant.participantId);
             if (participant.participantId == id) {
                 return participant;
             }

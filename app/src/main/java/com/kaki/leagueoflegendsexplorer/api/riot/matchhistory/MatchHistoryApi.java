@@ -32,7 +32,7 @@ public class MatchHistoryApi {
     }
 
     public void getMatch(final Context context, final HttpRequest<PlayerHistory> request) {
-        m_api.getMatch("euw", 22812174, new Callback<PlayerHistory>() {
+        m_api.getMatch("euw", 22812174, 0, 15, new Callback<PlayerHistory>() {
             @Override
             public void success(PlayerHistory playerHistory, Response response) {
                 Log.d("response", response.getBody().toString());
