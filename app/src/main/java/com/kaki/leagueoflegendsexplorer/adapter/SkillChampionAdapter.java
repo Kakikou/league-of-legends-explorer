@@ -1,5 +1,6 @@
 package com.kaki.leagueoflegendsexplorer.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.kaki.leagueoflegendsexplorer.api.riot.UrlImage;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionDto;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionSpellDto;
 import com.kaki.leagueoflegendsexplorer.fragments.champions.Detail.SkillsChampion;
+import com.kaki.leagueoflegendsexplorer.utils.DragonMagicServer;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -26,10 +28,12 @@ import butterknife.ButterKnife;
 public class SkillChampionAdapter extends RecyclerView.Adapter<SkillChampionAdapter.ViewHolder> {
 
     private List<ChampionSpellDto> skills;
+    private final DragonMagicServer dragonMagicServer;
 
-    public SkillChampionAdapter(ChampionDto championDto) {
+    public SkillChampionAdapter(Context context, ChampionDto championDto) {
         super();
         skills = new ArrayList<ChampionSpellDto>();
+        dragonMagicServer = new DragonMagicServer(context);
         ChampionSpellDto temp = new ChampionSpellDto();
         temp.name = championDto.passive.name;
         temp.description = championDto.passive.description;
@@ -55,10 +59,10 @@ public class SkillChampionAdapter extends RecyclerView.Adapter<SkillChampionAdap
         holder.name.setText(skill.name);
         if (skill.cost != null) {
             fillSkill(skill, holder);
-            url = UrlImage.SKILL_URL;
+            url = dragonMagicServer.getSkillImageUrl(skill.image.full);
         } else {
             holder.cost.setText(R.string.passive);
-            url = UrlImage.PASSIVE_SKILL_URL;
+            url = dragonMagicServer.getPassiveSkillImageUrl(skill.image.full);
         }
         holder.description.setText(skill.description + "\n" + skill.sanitizedDescription);
         Picasso.with(holder.itemView.getContext())

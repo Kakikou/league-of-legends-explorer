@@ -43,4 +43,20 @@ public class DragonMagicServer {
                 sharedPreferences.getString(VERSION, ""),
                 championUrl);
     }
+
+    public String getSkillImageUrl(String skillUrl) {
+        return String.format(
+                "%s/%s/img/spell/%s",
+                sharedPreferences.getString(URL_CDN, ""),
+                sharedPreferences.getString(VERSION, ""),
+                skillUrl);
+    }
+
+    public String getPassiveSkillImageUrl(String passiveUrl) {
+        return String.format(
+                "%s/%s/img/passive/%s",
+                sharedPreferences.getString(URL_CDN, ""),
+                sharedPreferences.getString(VERSION, ""),
+                passiveUrl);
+    }
 }
