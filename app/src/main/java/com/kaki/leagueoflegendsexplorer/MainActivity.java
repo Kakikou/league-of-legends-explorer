@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import android.support.v7.widget.Toolbar;
+import android.view.Window;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -43,8 +44,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawerLayout;
     @Bind(R.id.navigation_view)
     NavigationView navigationView;
-    @Bind(R.id.adView)
-    AdView adView;
+    //@Bind(R.id.adView)
+    //AdView adView;
 
     private ActionBarDrawerToggle toggle;
 
@@ -55,11 +56,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
-        if (BuildConfig.DEBUG) {
-            adView.loadAd(new AdRequest.Builder().addTestDevice("EB8221CB516E6DF24EBDF773A0279B36").build());
-        } else {
-            adView.loadAd(new AdRequest.Builder().build());
-        }
+        //if (BuildConfig.DEBUG) {
+        //    adView.loadAd(new AdRequest.Builder().addTestDevice("EB8221CB516E6DF24EBDF773A0279B36").build());
+        //} else {
+        //    adView.loadAd(new AdRequest.Builder().build());
+        //}
         navigationView.setNavigationItemSelectedListener(this);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0);
         drawerLayout.setDrawerListener(toggle);

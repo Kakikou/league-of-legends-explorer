@@ -6,10 +6,9 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionDto;
-import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionListDto;
-import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionListJson;
-import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.realms.RealmDto;
+import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.items.ItemDto;
+import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.items.ItemListDto;
+import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.items.ItemListJson;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -18,40 +17,41 @@ import java.util.Set;
 /**
  * Created by kevinrodrigues on 10/07/15.
  */
-public class CacheChampions {
+public class CacheItem {
 
-    private static final String NAME_SHARED = "com.kaki.leagueoflegendsexplorer.utils.CacheChampions";
+    private static final String NAME_SHARED = "com.kaki.leagueoflegendsexplorer.utils.CacheItem";
     private static final String SET_ID = "com.kaki.leagueoflegendsexplorer.utils.SET_ID";
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
-    public CacheChampions(Context context) {
+    public CacheItem(Context context) {
         sharedPreferences = context.getSharedPreferences(NAME_SHARED, Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
     }
 
-    public void storeChampions(ChampionListJson championListJson) {
+    public void storeItem(ItemListJson itemListJson) {
         Set<String> idSet = new HashSet<>();
 
-        for (Map.Entry<String, JsonObject> entry : championListJson.data.entrySet()) {
+        for (Map.Entry<String, JsonObject> entry : itemListJson.data.entrySet()) {
             int id = entry.getValue().get("id").getAsInt();
             idSet.add("" + id);
             editor.putString("" + id, "" + entry.getValue());
+            Log.d("Items", "" + entry.getValue().get("name").getAsString());
         }
         editor.putStringSet(SET_ID, idSet);
         editor.apply();
     }
 
-    public ChampionDto getChampion(int id) {
-        ChampionDto championDto;
+    public ItemDto getItem(int id) {
+        ItemDto itemDto;
         String json;
 
         json = sharedPreferences.getString("" + id, null);
         if (json == null)
             return null;
-        championDto = new Gson().fromJson(json, ChampionDto.class);
-        return championDto;
+        itemDto = new Gson().fromJson(json, ItemDto.class);
+        return itemDto;
     }
 
     public void cleanBase() {

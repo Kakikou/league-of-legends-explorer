@@ -8,8 +8,11 @@ import android.util.Log;
 import com.kaki.leagueoflegendsexplorer.api.HttpRequest;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.StaticDataApi;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionListJson;
+import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.items.ItemListJson;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.realms.RealmDto;
 import com.kaki.leagueoflegendsexplorer.utils.CacheChampions;
+import com.kaki.leagueoflegendsexplorer.utils.CacheItem;
+import com.kaki.leagueoflegendsexplorer.utils.DragonMagicServer;
 import com.kaki.leagueoflegendsexplorer.utils.VersionBases;
 
 import retrofit.RetrofitError;
@@ -22,6 +25,8 @@ public class SplashActivity extends Activity {
 
     private VersionBases versionBases;
     private CacheChampions cacheChampions;
+    private CacheItem cacheItem;
+    private DragonMagicServer dragonMagicServer;
     private StaticDataApi api;
     private int nbToUpdate;
 
@@ -32,6 +37,8 @@ public class SplashActivity extends Activity {
         api.getVersion(this, onGetVersion);
         versionBases = new VersionBases(this);
         cacheChampions = new CacheChampions(this);
+        cacheItem = new CacheItem(this);
+        dragonMagicServer = new DragonMagicServer(this);
     }
 
     private void startActivity() {
@@ -39,18 +46,52 @@ public class SplashActivity extends Activity {
     }
 
     private boolean updateBases(RealmDto realmDto) {
-        String versionChamp;
-        String versionChampBase;
+        updateChamp(realmDto);
+        updateItems(realmDto);
+        updateDragonMagicServer(realmDto);
+        return nbToUpdate != 0;
+    }
 
-        versionChamp = realmDto.n.get("champion");
-        versionChampBase = versionBases.getVersionChamp();
-        Log.d("Version", "Champion server " + versionChamp);
-        Log.d("Version", "Champion local " + versionChampBase);
-        if (!versionChamp.equals(versionChampBase)) {
-            api.getChampionsListOnJson(getBaseContext(), onGetAllChamp);
+    private void updateDragonMagicServer(RealmDto realmDto) {
+        String versionServer;
+        String versionLocal;
+
+        versionServer = realmDto.dd;
+        versionLocal = versionBases.getVersionDragonMagicServer();
+        Log.d("Version", "DragonMagicServer server : " + versionServer);
+        Log.d("Version", "DragonMagicServer local : " + versionLocal);
+        if (!versionServer.equals(versionLocal)) {
+            dragonMagicServer.updateUrl(realmDto);
+            versionBases.updateVersionDragonMagicServer(realmDto.dd);
+        }
+    }
+
+    private void updateItems(RealmDto realmDto) {
+        String versionServer;
+        String versionLocal;
+
+        versionServer = realmDto.n.get("item");
+        versionLocal = versionBases.getVersionItems();
+        Log.d("Version", "Item server : " + versionServer);
+        Log.d("Version", "Item local : " + versionLocal);
+        if (!versionServer.equals(versionLocal)) {
+            api.getListItemJson(this, onGetItems);
             nbToUpdate++;
         }
-        return nbToUpdate != 0;
+    }
+
+    private void updateChamp(RealmDto realmDto) {
+        String versionChampServer;
+        String versionChampBase;
+
+        versionChampServer = realmDto.n.get("champion");
+        versionChampBase = versionBases.getVersionChamp();
+        Log.d("Version", "Champion server " + versionChampServer);
+        Log.d("Version", "Champion local " + versionChampBase);
+        if (!versionChampServer.equals(versionChampBase)) {
+            api.getChampionsListOnJson(this, onGetAllChamp);
+            nbToUpdate++;
+        }
     }
 
     private HttpRequest<RealmDto> onGetVersion = new HttpRequest<RealmDto>() {
@@ -63,6 +104,22 @@ public class SplashActivity extends Activity {
         @Override
         public void failure(RetrofitError error) {
 
+        }
+    };
+
+    private HttpRequest<ItemListJson> onGetItems = new HttpRequest<ItemListJson>() {
+        @Override
+        public void success(ItemListJson itemListJson, Response response) {
+            cacheItem.storeItem(itemListJson);
+            versionBases.updateVersionItem(itemListJson.version);
+            nbToUpdate--;
+            if (nbToUpdate == 0)
+                startActivity();
+        }
+
+        @Override
+        public void failure(RetrofitError error) {
+            startActivity();
         }
     };
 

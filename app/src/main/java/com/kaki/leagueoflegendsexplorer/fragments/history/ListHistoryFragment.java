@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +18,14 @@ import com.kaki.leagueoflegendsexplorer.R;
 import com.kaki.leagueoflegendsexplorer.adapter.HistoryAdapter;
 import com.kaki.leagueoflegendsexplorer.api.HttpRequest;
 import com.kaki.leagueoflegendsexplorer.api.riot.game.GameApi;
+import com.kaki.leagueoflegendsexplorer.api.riot.game.models.GameDto;
 import com.kaki.leagueoflegendsexplorer.api.riot.game.models.RecentGamesDto;
 import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.MatchHistoryApi;
 import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.models.MatchSummary;
 import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.models.PlayerHistory;
+import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionDto;
+import com.kaki.leagueoflegendsexplorer.fragments.champions.Detail.StatsChampion;
+import com.kaki.leagueoflegendsexplorer.fragments.history.detail.StatsGame;
 import com.kaki.leagueoflegendsexplorer.interaction.LaunchFragment;
 import com.kaki.leagueoflegendsexplorer.interaction.ToolbarInteraction;
 
@@ -30,7 +37,7 @@ import retrofit.client.Response;
 /**
  * Created by kevinrodrigues on 09/07/15.
  */
-public class ListHistoryFragment extends Fragment {
+public class ListHistoryFragment extends Fragment implements HistoryAdapter.OnClickCardListener {
 
     private GameApi gameApi;
     private HistoryAdapter historyAdapter;
@@ -47,7 +54,7 @@ public class ListHistoryFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        historyAdapter = new HistoryAdapter(getActivity());
+        historyAdapter = new HistoryAdapter(getActivity(), this);
     }
 
     @Nullable
@@ -96,5 +103,11 @@ public class ListHistoryFragment extends Fragment {
         } catch (ClassCastException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void clickCard(View card, GameDto game, ChampionDto championDto) {
+        Fragment fragment = StatsGame.newInstance(game, championDto);
+        m_launchFragment.addFragment(fragment);
     }
 }

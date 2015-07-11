@@ -10,6 +10,9 @@ public class VersionBases {
 
     private static final String NAME_PREF = "com.kaki.leagueoflegendsexplorer.utils.VersionBases";
     private static final String VERSION_CHAMP = "com.kaki.leagueoflegendsexplorer.utils.VERSION_CHAMP";
+    private static final String VERSION_ITEMS = "com.kaki.leagueoflegendsexplorer.utils.VERSION_ITEMS";
+    private static final String VERSION_DRAGON_MAGIC_SERVER = "com.kaki.leagueoflegendsexplorer.utils.DRAGON_MAGIC_SERVER";
+
 
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
@@ -23,8 +26,26 @@ public class VersionBases {
         return sharedPreferences.getString(VERSION_CHAMP, "");
     }
 
+    public String getVersionItems() {
+        return sharedPreferences.getString(VERSION_ITEMS, "");
+    }
+
+    public String getVersionDragonMagicServer() {
+        return sharedPreferences.getString(VERSION_DRAGON_MAGIC_SERVER, "");
+    }
+
     public void updateVersionChamp(String version) {
         editor.putString(VERSION_CHAMP, version);
+        editor.apply();
+    }
+
+    public void updateVersionItem(String version) {
+        editor.putString(VERSION_ITEMS, version);
+        editor.apply();
+    }
+
+    public void updateVersionDragonMagicServer(String version) {
+        editor.putString(VERSION_DRAGON_MAGIC_SERVER, version);
         editor.apply();
     }
 

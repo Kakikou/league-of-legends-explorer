@@ -10,6 +10,8 @@ import com.kaki.leagueoflegendsexplorer.api.riot.RequestInterception;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionDto;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionListDto;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionListJson;
+import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.items.ItemDto;
+import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.items.ItemListJson;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.realms.RealmDto;
 
 import retrofit.Callback;
@@ -44,19 +46,7 @@ public class StaticDataApi {
 
             @Override
             public void failure(RetrofitError error) {
-                if (error.getResponse() == null) {
-                    Toast.makeText(context, R.string.no_internet, Toast.LENGTH_LONG).show();
-                } else {
-                    switch (error.getResponse().getStatus()) {
-                        case 400:
-                        case 401:
-                        case 429:
-                        case 500:
-                        case 503:
-                            Toast.makeText(context, R.string.error_with_server, Toast.LENGTH_LONG).show();
-                            break;
-                    }
-                }
+                handleCommonError(context, error);
                 request.failure(error);
             }
         });
@@ -72,19 +62,7 @@ public class StaticDataApi {
 
             @Override
             public void failure(RetrofitError error) {
-                if (error.getResponse() == null) {
-                    Toast.makeText(context, R.string.no_internet, Toast.LENGTH_LONG).show();
-                } else {
-                    switch (error.getResponse().getStatus()) {
-                        case 400:
-                        case 401:
-                        case 429:
-                        case 500:
-                        case 503:
-                            Toast.makeText(context, R.string.error_with_server, Toast.LENGTH_LONG).show();
-                            break;
-                    }
-                }
+                handleCommonError(context, error);
                 request.failure(error);
             }
         });
@@ -100,19 +78,7 @@ public class StaticDataApi {
 
             @Override
             public void failure(RetrofitError error) {
-                if (error.getResponse() == null) {
-                    Toast.makeText(context, R.string.no_internet, Toast.LENGTH_LONG).show();
-                } else {
-                    switch (error.getResponse().getStatus()) {
-                        case 400:
-                        case 401:
-                        case 429:
-                        case 500:
-                        case 503:
-                            Toast.makeText(context, R.string.error_with_server, Toast.LENGTH_LONG).show();
-                            break;
-                    }
-                }
+                handleCommonError(context, error);
                 request.failure(error);
             }
         });
@@ -128,21 +94,57 @@ public class StaticDataApi {
 
             @Override
             public void failure(RetrofitError error) {
-                if (error.getResponse() == null) {
-                    Toast.makeText(context, R.string.no_internet, Toast.LENGTH_LONG).show();
-                } else {
-                    switch (error.getResponse().getStatus()) {
-                        case 400:
-                        case 401:
-                        case 429:
-                        case 500:
-                        case 503:
-                            Toast.makeText(context, R.string.error_with_server, Toast.LENGTH_LONG).show();
-                            break;
-                    }
-                }
+                handleCommonError(context, error);
                 request.failure(error);
             }
         });
+    }
+
+    public void getItem(final Context context, Integer id, final HttpRequest<ItemDto> request) {
+        m_api.getItem(id, "euw", "all", "fr_FR", new Callback<ItemDto>() {
+            @Override
+            public void success(ItemDto itemDto, Response response) {
+                Log.d("response", response.getBody().toString());
+                request.success(itemDto, response);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                handleCommonError(context, error);
+                request.failure(error);
+            }
+        });
+    }
+
+    public void getListItemJson(final Context context, final HttpRequest<ItemListJson> request) {
+        m_api.getItemListOnJson("euw", "fr_FR", "all", new Callback<ItemListJson>() {
+            @Override
+            public void success(ItemListJson itemListJson, Response response) {
+                Log.d("response", response.getBody().toString());
+                request.success(itemListJson, response);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                handleCommonError(context, error);
+                request.failure(error);
+            }
+        });
+    }
+
+    private void handleCommonError(Context context, RetrofitError error) {
+        if (error.getResponse() == null) {
+            Toast.makeText(context, R.string.no_internet, Toast.LENGTH_LONG).show();
+        } else {
+            switch (error.getResponse().getStatus()) {
+                case 400:
+                case 401:
+                case 429:
+                case 500:
+                case 503:
+                    Toast.makeText(context, R.string.error_with_server, Toast.LENGTH_LONG).show();
+                    break;
+            }
+        }
     }
 }
