@@ -31,32 +31,32 @@ public class DragonMagicServer {
     public String getItemImageUrl(String itemUrl) {
         return String.format(
                 "%s/%s/img/item/%s",
-                sharedPreferences.getString(URL_CDN, ""),
-                sharedPreferences.getString(VERSION, ""),
+                sharedPreferences.getString(URL_CDN, "http://ddragon.leagueoflegends.com/cdn"),
+                sharedPreferences.getString(VERSION, "5.13.1"),
                 itemUrl);
     }
 
     public String getChampionSquareImageUrl(String championUrl) {
         return String.format(
                 "%s/%s/img/champion/%s",
-                sharedPreferences.getString(URL_CDN, ""),
-                sharedPreferences.getString(VERSION, ""),
+                sharedPreferences.getString(URL_CDN, "http://ddragon.leagueoflegends.com/cdn"),
+                sharedPreferences.getString(VERSION, "5.13.1"),
                 championUrl);
     }
 
     public String getSkillImageUrl(String skillUrl) {
         return String.format(
                 "%s/%s/img/spell/%s",
-                sharedPreferences.getString(URL_CDN, ""),
-                sharedPreferences.getString(VERSION, ""),
+                sharedPreferences.getString(URL_CDN, "http://ddragon.leagueoflegends.com/cdn"),
+                sharedPreferences.getString(VERSION, "5.13.1"),
                 skillUrl);
     }
 
     public String getPassiveSkillImageUrl(String passiveUrl) {
         return String.format(
                 "%s/%s/img/passive/%s",
-                sharedPreferences.getString(URL_CDN, ""),
-                sharedPreferences.getString(VERSION, ""),
+                sharedPreferences.getString(URL_CDN, "http://ddragon.leagueoflegends.com/cdn"),
+                sharedPreferences.getString(VERSION, "5.13.1"),
                 passiveUrl);
     }
 }
