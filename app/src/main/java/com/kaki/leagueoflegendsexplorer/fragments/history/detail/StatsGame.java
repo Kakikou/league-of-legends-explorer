@@ -16,6 +16,7 @@ import com.kaki.leagueoflegendsexplorer.api.riot.game.models.GameDto;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.StaticDataApi;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionDto;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.items.ItemDto;
+import com.kaki.leagueoflegendsexplorer.utils.CacheChampions;
 import com.kaki.leagueoflegendsexplorer.utils.CacheItem;
 import com.kaki.leagueoflegendsexplorer.utils.DragonMagicServer;
 import com.squareup.picasso.Picasso;
@@ -48,22 +49,24 @@ public class StatsGame extends Fragment {
     private GameDto game;
     private ChampionDto championDto;
     private StaticDataApi dataApi;
+    private CacheChampions cacheChampions;
     private CacheItem cacheItem;
     private DragonMagicServer dragonMagicServer;
 
-    public static StatsGame newInstance(GameDto gameDto, ChampionDto championDto) {
+    public static StatsGame newInstance(GameDto gameDto) {
         StatsGame fragment = new StatsGame();
         fragment.game = gameDto;
-        fragment.championDto = championDto;
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dataApi = new StaticDataApi(getActivity());
         cacheItem = new CacheItem(getActivity());
+        dataApi = new StaticDataApi(getActivity());
+        cacheChampions = new CacheChampions(getActivity());
         dragonMagicServer = new DragonMagicServer(getActivity());
+        championDto = cacheChampions.getChampion(game.championId);
     }
 
     @Nullable

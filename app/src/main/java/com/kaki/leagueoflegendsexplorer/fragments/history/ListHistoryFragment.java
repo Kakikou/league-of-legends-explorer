@@ -107,7 +107,7 @@ public class ListHistoryFragment extends Fragment implements HistoryAdapter.OnCl
 
     @Override
     public void clickCard(View card, GameDto game, ChampionDto championDto) {
-        Fragment fragment = StatsGame.newInstance(game, championDto);
+        Fragment fragment = StatsGame.newInstance(game);
         m_launchFragment.addFragment(fragment);
     }
 }
