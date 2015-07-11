@@ -28,11 +28,19 @@ public class DragonMagicServer {
         editor.apply();
     }
 
-    public String getItemImageUrl(String url) {
+    public String getItemImageUrl(String itemUrl) {
         return String.format(
                 "%s/%s/img/item/%s",
                 sharedPreferences.getString(URL_CDN, ""),
                 sharedPreferences.getString(VERSION, ""),
-                url);
+                itemUrl);
+    }
+
+    public String getChampionSquareImageUrl(String championUrl) {
+        return String.format(
+                "%s/%s/img/champion/%s",
+                sharedPreferences.getString(URL_CDN, ""),
+                sharedPreferences.getString(VERSION, ""),
+                championUrl);
     }
 }

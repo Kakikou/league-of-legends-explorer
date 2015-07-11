@@ -42,6 +42,8 @@ public class StatsGame extends Fragment {
     ImageView item4;
     @Bind(R.id.item5)
     ImageView item5;
+    @Bind(R.id.image_champion_player)
+    ImageView championPlayer;
 
     private GameDto game;
     private ChampionDto championDto;
@@ -80,6 +82,9 @@ public class StatsGame extends Fragment {
         populateItems(game.stats.item3, item3);
         populateItems(game.stats.item4, item4);
         populateItems(game.stats.item5, item5);
+        Picasso.with(getActivity())
+                .load(dragonMagicServer.getChampionSquareImageUrl(championDto.image.full))
+                .into(championPlayer);
     }
 
     private void populateItems(int id, final ImageView container) {

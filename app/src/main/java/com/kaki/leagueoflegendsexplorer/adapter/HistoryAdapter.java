@@ -22,6 +22,7 @@ import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.models.Participant
 import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.models.Player;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionDto;
 import com.kaki.leagueoflegendsexplorer.utils.CacheChampions;
+import com.kaki.leagueoflegendsexplorer.utils.DragonMagicServer;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -47,6 +48,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     private CacheChampions cacheChampions;
     private SimpleDateFormat simpleDateFormat;
     private final OnClickCardListener listener;
+    private final DragonMagicServer dragonMagicServer;
 
     public HistoryAdapter(Context context, OnClickCardListener listener) {
         this.listener = listener;
@@ -57,6 +59,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         championList = new ArrayList<>();
         cacheChampions = new CacheChampions(context);
         simpleDateFormat = new SimpleDateFormat("dd/MM\nyyyy");
+        dragonMagicServer = new DragonMagicServer(context);
     }
 
     public void setDatas(List<GameDto> gameDtos) {
@@ -84,7 +87,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         ChampionDto championDto = championList.get(position);
 
         Picasso.with(holder.itemView.getContext())
-                .load(UrlImage.CHAMPION_URL + championDto.image.full)
+                .load(dragonMagicServer.getChampionSquareImageUrl(championDto.image.full))
                 .into(holder.imageChampion);
         holder.nameChampion.setText(championDto.name);
         holder.modeGame.setText(gameDto.gameMode);
