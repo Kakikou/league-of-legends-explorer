@@ -6,5 +6,4 @@ package com.kaki.leagueoflegendsexplorer.api.riot;
 public class UrlImage {
 
     public static final String CHAMPION_SCREEN_ART_URL = "http://ddragon.leagueoflegends.com/cdn/img/champion/loading/";
-    public static final String CHAMPION_SPLASH_SKIN = "http://ddragon.leagueoflegends.com/cdn/img/champion/splash/";
 }

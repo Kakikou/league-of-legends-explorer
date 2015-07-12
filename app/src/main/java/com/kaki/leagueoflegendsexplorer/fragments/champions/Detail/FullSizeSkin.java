@@ -24,6 +24,7 @@ import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.Cha
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.SkinDto;
 import com.kaki.leagueoflegendsexplorer.interaction.LaunchFragment;
 import com.kaki.leagueoflegendsexplorer.interaction.ToolbarInteraction;
+import com.kaki.leagueoflegendsexplorer.utils.DragonMagicServer;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -45,6 +46,7 @@ public class FullSizeSkin extends Fragment {
     private Integer nb;
     private ToolbarInteraction toolbarInteraction;
     private AlertDialog dialogWallpaper;
+    private DragonMagicServer dragonMagicServer;
 
     public static FullSizeSkin newInstance(ChampionDto championDto, int nb) {
         FullSizeSkin fragment = new FullSizeSkin();
@@ -65,6 +67,7 @@ public class FullSizeSkin extends Fragment {
                 })
                 .setNegativeButton(R.string.no, null)
                 .setMessage(R.string.set_wallpaper);
+        dragonMagicServer = new DragonMagicServer(getActivity());
         dialogWallpaper = builder.create();
     }
 
@@ -130,7 +133,7 @@ public class FullSizeSkin extends Fragment {
 
     private void populateSkin() {
         Picasso.with(getActivity())
-                .load(UrlImage.CHAMPION_SPLASH_SKIN + champion.name + "_" + nb + ".jpg")
+                .load(dragonMagicServer.getSplashSkinUrl(champion.name, nb))
                 .rotate(90)
                 .into(imageSkin);
         toolbarInteraction.hideBar();
@@ -143,7 +146,7 @@ public class FullSizeSkin extends Fragment {
 
     private void setWallpaper() {
         Picasso.with(getActivity())
-                .load(UrlImage.CHAMPION_SPLASH_SKIN + champion.name + "_" + nb + ".jpg")
+                .load(dragonMagicServer.getSplashSkinUrl(champion.name, nb))
                 .into(new Target() {
                     @Override
                     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
