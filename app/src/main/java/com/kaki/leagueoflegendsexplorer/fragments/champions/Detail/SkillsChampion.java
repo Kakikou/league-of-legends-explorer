@@ -50,7 +50,7 @@ public class SkillsChampion extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity());
-        recyclerView.setAdapter(new SkillChampionAdapter(champion));
+        recyclerView.setAdapter(new SkillChampionAdapter(getActivity(), champion));
         recyclerView.setLayoutManager(manager);
     }
 }

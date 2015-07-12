@@ -64,7 +64,7 @@ public class ListChampionsFragment extends Fragment implements ChampionsAdapter.
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
-        m_adapter = new ChampionsAdapter(this);
+        m_adapter = new ChampionsAdapter(getActivity(), this);
         m_recyclerview.setAdapter(m_adapter);
         m_recyclerview.setHasFixedSize(true);
         m_recyclerview.setLayoutManager(layoutManager);

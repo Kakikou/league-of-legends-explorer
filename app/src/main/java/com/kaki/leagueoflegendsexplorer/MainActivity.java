@@ -10,19 +10,29 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 
 import android.support.v7.widget.Toolbar;
+import android.view.Window;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.kaki.leagueoflegendsexplorer.api.HttpRequest;
 import com.kaki.leagueoflegendsexplorer.api.riot.champion_v1_2.models.ChampionDto;
+import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.StaticDataApi;
+import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionListDto;
+import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionListJson;
 import com.kaki.leagueoflegendsexplorer.fragments.champions.ListChampionsFragment;
+import com.kaki.leagueoflegendsexplorer.fragments.history.ListHistoryFragment;
 import com.kaki.leagueoflegendsexplorer.interaction.LaunchFragment;
 import com.kaki.leagueoflegendsexplorer.interaction.ToolbarInteraction;
+import com.kaki.leagueoflegendsexplorer.utils.CacheChampions;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         LaunchFragment,
@@ -34,8 +44,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawerLayout;
     @Bind(R.id.navigation_view)
     NavigationView navigationView;
-    @Bind(R.id.adView)
-    AdView adView;
+    //@Bind(R.id.adView)
+    //AdView adView;
 
     private ActionBarDrawerToggle toggle;
 
@@ -46,17 +56,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
-        if (BuildConfig.DEBUG) {
-            adView.loadAd(new AdRequest.Builder().addTestDevice("EB8221CB516E6DF24EBDF773A0279B36").build());
-        } else {
-            adView.loadAd(new AdRequest.Builder().build());
-        }
+        //if (BuildConfig.DEBUG) {
+        //    adView.loadAd(new AdRequest.Builder().addTestDevice("EB8221CB516E6DF24EBDF773A0279B36").build());
+        //} else {
+        //    adView.loadAd(new AdRequest.Builder().build());
+        //}
         navigationView.setNavigationItemSelectedListener(this);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0);
         drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, ListChampionsFragment.newInstance())
+                //.add(R.id.fragment_container, ListChampionsFragment.newInstance())
+                .add(R.id.fragment_container, ListHistoryFragment.newInstance())
                 .commit();
     }
 

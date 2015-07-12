@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.kaki.leagueoflegendsexplorer.R;
 import com.kaki.leagueoflegendsexplorer.api.riot.UrlImage;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionDto;
+import com.kaki.leagueoflegendsexplorer.utils.DragonMagicServer;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -34,9 +35,11 @@ public class ChampionsAdapter extends RecyclerView.Adapter<ChampionsAdapter.View
     private List<Integer> m_freeList;
     private List<ChampionDto> m_listChampions;
     private OnTouchChampionListener m_onTouchChampionListener;
+    private DragonMagicServer dragonMagicServer;
 
-    public ChampionsAdapter(OnTouchChampionListener onTouchChampionListener) {
+    public ChampionsAdapter(Context context, OnTouchChampionListener onTouchChampionListener) {
         m_onTouchChampionListener = onTouchChampionListener;
+        dragonMagicServer = new DragonMagicServer(context);
         m_listChampions = new ArrayList<>();
         m_freeList = new ArrayList<>();
     }
@@ -97,7 +100,7 @@ public class ChampionsAdapter extends RecyclerView.Adapter<ChampionsAdapter.View
 
         viewHolder.name.setText(championDto.name);
         Picasso.with(viewHolder.itemView.getContext())
-                .load(UrlImage.CHAMPION_URL + championDto.image.full)
+                .load(dragonMagicServer.getChampionSquareImageUrl(championDto.image.full))
                 .into(viewHolder.image);
         if (isFreeChamp(championDto.id)) {
             viewHolder.free.setVisibility(View.VISIBLE);
