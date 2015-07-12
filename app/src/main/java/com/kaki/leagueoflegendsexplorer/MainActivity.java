@@ -1,12 +1,9 @@
 package com.kaki.leagueoflegendsexplorer;
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,25 +11,20 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import android.support.v7.widget.Toolbar;
-import android.view.Window;
+import android.widget.ImageView;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.kaki.leagueoflegendsexplorer.api.HttpRequest;
-import com.kaki.leagueoflegendsexplorer.api.riot.champion_v1_2.models.ChampionDto;
-import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.StaticDataApi;
-import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionListDto;
-import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionListJson;
+import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionDto;
 import com.kaki.leagueoflegendsexplorer.fragments.champions.ListChampionsFragment;
 import com.kaki.leagueoflegendsexplorer.fragments.history.ListHistoryFragment;
 import com.kaki.leagueoflegendsexplorer.interaction.LaunchFragment;
 import com.kaki.leagueoflegendsexplorer.interaction.ToolbarInteraction;
 import com.kaki.leagueoflegendsexplorer.utils.CacheChampions;
+import com.kaki.leagueoflegendsexplorer.utils.DragonMagicServer;
+import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         LaunchFragment,
@@ -44,10 +36,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawerLayout;
     @Bind(R.id.navigation_view)
     NavigationView navigationView;
+
+    ImageView backgroundNavigationViewHeader;
+    CircleImageView iconNavigationViewHeader;
     //@Bind(R.id.adView)
     //AdView adView;
 
     private ActionBarDrawerToggle toggle;
+    private CacheChampions cacheChampions;
+    private DragonMagicServer dragonMagicServer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,14 +58,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //} else {
         //    adView.loadAd(new AdRequest.Builder().build());
         //}
+        backgroundNavigationViewHeader = (ImageView) navigationView.findViewById(R.id.background_header);
+        iconNavigationViewHeader = (CircleImageView) navigationView.findViewById(R.id.profile_image_header);
         navigationView.setNavigationItemSelectedListener(this);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0);
+        cacheChampions = new CacheChampions(this);
+        dragonMagicServer = new DragonMagicServer(this);
         drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
         getSupportFragmentManager().beginTransaction()
-                //.add(R.id.fragment_container, ListChampionsFragment.newInstance())
-                .add(R.id.fragment_container, ListHistoryFragment.newInstance())
+                .add(R.id.fragment_container, ListChampionsFragment.newInstance())
                 .commit();
+        updateHeaderNavigationView();
+    }
+
+    private void updateHeaderNavigationView() {
+        ChampionDto championDto = cacheChampions.getChampionByName("Aatrox");
+        Log.d("ChampionTest", "" + championDto);
+        if (championDto != null) {
+            Log.d("ChampionTest", "" + dragonMagicServer.getSplashSkinUrl(championDto.name, championDto.skins.get(0).num));
+            Picasso.with(this)
+                    .load(dragonMagicServer.getSplashSkinUrl(championDto.name, championDto.skins.get(0).num))
+                    .into(backgroundNavigationViewHeader);
+
+        }
     }
 
     @Override
@@ -119,8 +132,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.navigation_item_champion:
+                //setTitle();
+                launchFragment(ListChampionsFragment.newInstance());
                 break;
             case R.id.navigation_item_history:
+                //setTitle();
+                launchFragment(ListHistoryFragment.newInstance());
                 break;
             default:
                 break;

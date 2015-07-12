@@ -54,6 +54,23 @@ public class CacheChampions {
         return championDto;
     }
 
+    public ChampionDto getChampionByName(String name) {
+        Set<String> idSet;
+        ChampionDto championDto;
+        String json;
+
+        idSet = sharedPreferences.getStringSet(SET_ID, null);
+        if (idSet == null)
+            return null;
+        for (String id : idSet) {
+            json = sharedPreferences.getString("" + id, "");
+            championDto = new Gson().fromJson(json, ChampionDto.class);
+            if (championDto.name.equals(name))
+                return championDto;
+        }
+        return null;
+    }
+
     public void cleanBase() {
         editor.clear();
         editor.commit();

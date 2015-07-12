@@ -59,4 +59,12 @@ public class DragonMagicServer {
                 sharedPreferences.getString(VERSION, "5.13.1"),
                 passiveUrl);
     }
+
+    public String getSplashSkinUrl(String championName, int nbSkin) {
+        return String.format(
+                "%s/img/champion/splash/%s_%d.jpg",
+                sharedPreferences.getString(URL_CDN, "http://ddragon.leagueoflegends.com/cdn"),
+                championName,
+                nbSkin);
+    }
 }
