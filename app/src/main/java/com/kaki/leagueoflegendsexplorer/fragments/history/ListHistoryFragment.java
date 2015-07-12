@@ -20,6 +20,8 @@ import com.kaki.leagueoflegendsexplorer.api.HttpRequest;
 import com.kaki.leagueoflegendsexplorer.api.riot.game.GameApi;
 import com.kaki.leagueoflegendsexplorer.api.riot.game.models.GameDto;
 import com.kaki.leagueoflegendsexplorer.api.riot.game.models.RecentGamesDto;
+import com.kaki.leagueoflegendsexplorer.api.riot.match.MatchApi;
+import com.kaki.leagueoflegendsexplorer.api.riot.match.models.MatchDetail;
 import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.MatchHistoryApi;
 import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.models.MatchSummary;
 import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.models.PlayerHistory;
@@ -40,6 +42,7 @@ import retrofit.client.Response;
 public class ListHistoryFragment extends Fragment implements HistoryAdapter.OnClickCardListener {
 
     private GameApi gameApi;
+    private MatchApi matchApi;
     private HistoryAdapter historyAdapter;
     private LaunchFragment m_launchFragment;
     private ToolbarInteraction toolbarInteraction;
@@ -55,6 +58,7 @@ public class ListHistoryFragment extends Fragment implements HistoryAdapter.OnCl
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         historyAdapter = new HistoryAdapter(getActivity(), this);
+        matchApi = new MatchApi(getActivity());
     }
 
     @Nullable
@@ -107,7 +111,21 @@ public class ListHistoryFragment extends Fragment implements HistoryAdapter.OnCl
 
     @Override
     public void clickCard(View card, GameDto game, ChampionDto championDto) {
-        Fragment fragment = StatsGame.newInstance(game);
-        m_launchFragment.addFragment(fragment);
+        /*
+        matchApi.getMatch(getActivity(), game.gameId, new HttpRequest<MatchDetail>() {
+            @Override
+            public void success(MatchDetail matchDetail, Response response) {
+                Fragment fragment = StatsGame.newInstance(matchDetail);
+                m_launchFragment.addFragment(fragment);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
+        */
+        //Fragment fragment = StatsGame.newInstance(game);
+        //m_launchFragment.addFragment(fragment);
     }
 }

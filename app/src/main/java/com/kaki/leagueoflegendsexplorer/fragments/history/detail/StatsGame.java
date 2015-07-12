@@ -13,6 +13,11 @@ import com.kaki.leagueoflegendsexplorer.R;
 import com.kaki.leagueoflegendsexplorer.api.HttpRequest;
 import com.kaki.leagueoflegendsexplorer.api.riot.UrlImage;
 import com.kaki.leagueoflegendsexplorer.api.riot.game.models.GameDto;
+import com.kaki.leagueoflegendsexplorer.api.riot.match.models.MatchDetail;
+import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.models.MatchSummary;
+import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.models.Participant;
+import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.models.ParticipantIdentity;
+import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.models.Player;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.StaticDataApi;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionDto;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.items.ItemDto;
@@ -46,16 +51,16 @@ public class StatsGame extends Fragment {
     @Bind(R.id.image_champion_player)
     ImageView championPlayer;
 
-    private GameDto game;
-    private ChampionDto championDto;
+    private ParticipantIdentity player;
+    private MatchDetail matchDetail;
     private StaticDataApi dataApi;
     private CacheChampions cacheChampions;
     private CacheItem cacheItem;
     private DragonMagicServer dragonMagicServer;
 
-    public static StatsGame newInstance(GameDto gameDto) {
+    public static StatsGame newInstance(MatchDetail matchDetail) {
         StatsGame fragment = new StatsGame();
-        fragment.game = gameDto;
+        fragment.matchDetail = matchDetail;
         return fragment;
     }
 
@@ -66,7 +71,17 @@ public class StatsGame extends Fragment {
         dataApi = new StaticDataApi(getActivity());
         cacheChampions = new CacheChampions(getActivity());
         dragonMagicServer = new DragonMagicServer(getActivity());
-        championDto = cacheChampions.getChampion(game.championId);
+        for (ParticipantIdentity participant : matchDetail.participantIdentities) {
+            // TODO Add id of player
+            Log.d("Participant", "" + participant.player);
+            if (participant.player == null)
+                continue;
+            Log.d("Id", "" + participant.player.summonerId);
+            if (participant.player.summonerId == 22812174) {
+                player = participant;
+                break;
+            }
+        }
     }
 
     @Nullable
@@ -79,23 +94,36 @@ public class StatsGame extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        populateItems(game.stats.item0, item0);
-        populateItems(game.stats.item1, item1);
-        populateItems(game.stats.item2, item2);
-        populateItems(game.stats.item3, item3);
-        populateItems(game.stats.item4, item4);
-        populateItems(game.stats.item5, item5);
+        Participant participant = getParticipant(player.participantId);
+
+        ChampionDto championDto = cacheChampions.getChampion(participant.championId);
+        populateItems(participant.stats.item0, item0);
+        populateItems(participant.stats.item1, item1);
+        populateItems(participant.stats.item2, item2);
+        populateItems(participant.stats.item3, item3);
+        populateItems(participant.stats.item4, item4);
+        populateItems(participant.stats.item5, item5);
         Picasso.with(getActivity())
                 .load(dragonMagicServer.getChampionSquareImageUrl(championDto.image.full))
                 .into(championPlayer);
+
     }
 
-    private void populateItems(int id, final ImageView container) {
+    private void populateItems(long id, final ImageView container) {
         ItemDto itemDto = cacheItem.getItem(id);
         if (itemDto == null)
-            return ;
+            return;
         Picasso.with(getActivity())
                 .load(dragonMagicServer.getItemImageUrl(itemDto.image.full))
                 .into(container);
+    }
+
+    private Participant getParticipant(int participantId) {
+        for (Participant participant1 : matchDetail.participants) {
+            if (participant1.participantId == participantId) {
+                return participant1;
+            }
+        }
+        return null;
     }
 }

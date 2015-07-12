@@ -43,7 +43,7 @@ public class CacheItem {
         editor.apply();
     }
 
-    public ItemDto getItem(int id) {
+    public ItemDto getItem(long id) {
         ItemDto itemDto;
         String json;
 
