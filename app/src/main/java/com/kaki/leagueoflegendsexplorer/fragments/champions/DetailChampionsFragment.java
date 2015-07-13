@@ -24,6 +24,7 @@ import com.kaki.leagueoflegendsexplorer.fragments.champions.Detail.SkinChampion;
 import com.kaki.leagueoflegendsexplorer.fragments.champions.Detail.StatsChampion;
 import com.kaki.leagueoflegendsexplorer.fragments.champions.Detail.TipsChampion;
 import com.kaki.leagueoflegendsexplorer.interaction.ToolbarInteraction;
+import com.kaki.leagueoflegendsexplorer.utils.CacheChampions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,8 @@ import butterknife.ButterKnife;
  */
 public class DetailChampionsFragment extends Fragment {
 
-    private ChampionDto m_champion;
+    private int championId;
+    private ChampionDto champion;
     private DetailAdapter detailAdapter;
     private ToolbarInteraction toolbarInteraction;
 
@@ -47,15 +49,19 @@ public class DetailChampionsFragment extends Fragment {
     @Bind(R.id.adView)
     AdView adView;
 
-    public static DetailChampionsFragment newInstance(ChampionDto championDto) {
+    private CacheChampions cacheChampions;
+
+    public static DetailChampionsFragment newInstance(int championId) {
         DetailChampionsFragment fragment = new DetailChampionsFragment();
-        fragment.m_champion = championDto;
+        fragment.championId = championId;
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        cacheChampions = new CacheChampions(getActivity());
+        champion = cacheChampions.getChampion(championId);
     }
 
     @Nullable
@@ -69,11 +75,11 @@ public class DetailChampionsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         detailAdapter = new DetailAdapter(getChildFragmentManager());
-        detailAdapter.addFragment(StatsChampion.newInstance(m_champion), StatsChampion.TITLE_TAB);
-        detailAdapter.addFragment(TipsChampion.newInstance(m_champion), TipsChampion.TITLE_TAB);
-        detailAdapter.addFragment(SkillsChampion.newInstance(m_champion), SkillsChampion.TITLE_TAB);
-        detailAdapter.addFragment(LoreChampion.newInstance(m_champion), LoreChampion.TITLE_TAB);
-        detailAdapter.addFragment(SkinChampion.newInstance(m_champion), SkinChampion.TITLE_TAB);
+        detailAdapter.addFragment(StatsChampion.newInstance(champion), StatsChampion.TITLE_TAB);
+        detailAdapter.addFragment(TipsChampion.newInstance(champion), TipsChampion.TITLE_TAB);
+        detailAdapter.addFragment(SkillsChampion.newInstance(champion), SkillsChampion.TITLE_TAB);
+        detailAdapter.addFragment(LoreChampion.newInstance(champion), LoreChampion.TITLE_TAB);
+        detailAdapter.addFragment(SkinChampion.newInstance(champion), SkinChampion.TITLE_TAB);
         viewPager.setAdapter(detailAdapter);
         tabLayout.setupWithViewPager(viewPager);
         if (BuildConfig.DEBUG) {
@@ -86,7 +92,7 @@ public class DetailChampionsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        toolbarInteraction.setTitle(m_champion.name);
+        toolbarInteraction.setTitle(champion.name);
     }
 
     @Override
