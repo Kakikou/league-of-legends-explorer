@@ -52,6 +52,22 @@ public class StaticDataApi {
         });
     }
 
+    public void getChampionImageList(final Context context, final HttpRequest<ChampionListDto> request) {
+        m_api.getChampionList("euw", "image", "fr_FR", new Callback<ChampionListDto>() {
+            @Override
+            public void success(ChampionListDto championListDto, Response response) {
+                Log.d("response", response.getBody().toString());
+                request.success(championListDto, response);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                handleCommonError(context, error);
+                request.failure(error);
+            }
+        });
+    }
+
     public void getChampionsListOnJson(final Context context, final HttpRequest<ChampionListJson> request) {
         m_api.getChampionListOnJson("euw", "all", "fr_FR", new Callback<ChampionListJson>() {
             @Override

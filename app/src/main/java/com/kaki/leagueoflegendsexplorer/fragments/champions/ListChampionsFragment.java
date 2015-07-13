@@ -69,7 +69,7 @@ public class ListChampionsFragment extends Fragment implements ChampionsAdapter.
         m_recyclerview.setHasFixedSize(true);
         m_recyclerview.setLayoutManager(layoutManager);
         m_championV12Api.getFreeChampList(getActivity(), OnGetFreeChampionList);
-        m_staticDataApi.getChampionsList(getActivity(), OnGetChampionList);
+        m_staticDataApi.getChampionImageList(getActivity(), OnGetChampionList);
     }
 
     @Override
