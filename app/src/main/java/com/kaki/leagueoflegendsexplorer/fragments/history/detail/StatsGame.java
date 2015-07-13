@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.kaki.leagueoflegendsexplorer.R;
-import com.kaki.leagueoflegendsexplorer.api.riot.UrlImage;
 import com.kaki.leagueoflegendsexplorer.api.riot.match.models.MatchDetail;
 import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.models.Participant;
 import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.models.ParticipantIdentity;

@@ -17,7 +17,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.kaki.leagueoflegendsexplorer.R;
-import com.kaki.leagueoflegendsexplorer.api.riot.UrlImage;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionDto;
 import com.kaki.leagueoflegendsexplorer.interaction.ToolbarInteraction;
 import com.kaki.leagueoflegendsexplorer.utils.DragonMagicServer;
