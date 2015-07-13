@@ -11,15 +11,21 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionDto;
+import com.kaki.leagueoflegendsexplorer.enums.Ranking;
+import com.kaki.leagueoflegendsexplorer.fragments.SummonerNameFragment;
 import com.kaki.leagueoflegendsexplorer.fragments.champions.ListChampionsFragment;
 import com.kaki.leagueoflegendsexplorer.fragments.history.ListHistoryFragment;
 import com.kaki.leagueoflegendsexplorer.interaction.LaunchFragment;
 import com.kaki.leagueoflegendsexplorer.interaction.ToolbarInteraction;
+import com.kaki.leagueoflegendsexplorer.interaction.UpdateDrawerListener;
 import com.kaki.leagueoflegendsexplorer.utils.CacheChampions;
 import com.kaki.leagueoflegendsexplorer.utils.DragonMagicServer;
+import com.kaki.leagueoflegendsexplorer.utils.SummonerProfile;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
@@ -28,7 +34,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         LaunchFragment,
-        ToolbarInteraction {
+        ToolbarInteraction,
+        UpdateDrawerListener {
 
     @Bind(R.id.toolbar)
     Toolbar toolbar;
@@ -37,14 +44,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Bind(R.id.navigation_view)
     NavigationView navigationView;
 
+    TextView nameNavigationViewHeader;
+    TextView rankingNavigationViewHeader;
+    ImageView rankingImageNavigationViewHeader;
     ImageView backgroundNavigationViewHeader;
     CircleImageView iconNavigationViewHeader;
-    //@Bind(R.id.adView)
-    //AdView adView;
 
     private ActionBarDrawerToggle toggle;
     private CacheChampions cacheChampions;
     private DragonMagicServer dragonMagicServer;
+    private SummonerProfile summonerProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,35 +62,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
-        //if (BuildConfig.DEBUG) {
-        //    adView.loadAd(new AdRequest.Builder().addTestDevice("EB8221CB516E6DF24EBDF773A0279B36").build());
-        //} else {
-        //    adView.loadAd(new AdRequest.Builder().build());
-        //}
+        nameNavigationViewHeader = (TextView) navigationView.findViewById(R.id.text_name_header);
+        rankingNavigationViewHeader = (TextView) navigationView.findViewById(R.id.text_ranking_header);
         backgroundNavigationViewHeader = (ImageView) navigationView.findViewById(R.id.background_header);
         iconNavigationViewHeader = (CircleImageView) navigationView.findViewById(R.id.profile_image_header);
+        rankingImageNavigationViewHeader = (ImageView) navigationView.findViewById(R.id.ranking_header);
+        iconNavigationViewHeader.setOnClickListener(OnClickUser);
         navigationView.setNavigationItemSelectedListener(this);
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0);
         cacheChampions = new CacheChampions(this);
         dragonMagicServer = new DragonMagicServer(this);
+        summonerProfile = new SummonerProfile(this);
         drawerLayout.setDrawerListener(toggle);
         toggle.syncState();
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, ListChampionsFragment.newInstance())
+                .add(R.id.fragment_container, SummonerNameFragment.newInstance())
                 .commit();
-        updateHeaderNavigationView();
-    }
-
-    private void updateHeaderNavigationView() {
-        ChampionDto championDto = cacheChampions.getChampionByName("Aatrox");
-        Log.d("ChampionTest", "" + championDto);
-        if (championDto != null) {
-            Log.d("ChampionTest", "" + dragonMagicServer.getSplashSkinUrl(championDto.name, championDto.skins.get(0).num));
-            Picasso.with(this)
-                    .load(dragonMagicServer.getSplashSkinUrl(championDto.name, championDto.skins.get(0).num))
-                    .into(backgroundNavigationViewHeader);
-
-        }
+        updateDrawer();
     }
 
     @Override
@@ -129,8 +126,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    public void updateDrawer() {
+        if (summonerProfile.getSummonerName().length() != 0) {
+            Ranking ranking = Ranking.getRanking(summonerProfile.getSummonerTier(), summonerProfile.getSummonerDivision());
+            nameNavigationViewHeader.setText(summonerProfile.getSummonerName());
+            rankingNavigationViewHeader.setText(ranking.tier + " " + ranking.division);
+            rankingImageNavigationViewHeader.setImageResource(ranking.img);
+
+            Picasso.with(this)
+                    .load(dragonMagicServer.getProfileIconUrl(summonerProfile.getSummonerIcon()))
+                    .into(iconNavigationViewHeader);
+        }
+    }
+
+    @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
+            case R.id.navigation_item_search_summoner:
+                launchFragment(SummonerNameFragment.newInstance());
+                break;
             case R.id.navigation_item_champion:
                 //setTitle();
                 launchFragment(ListChampionsFragment.newInstance());
@@ -146,4 +160,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
         return true;
     }
+
+    private View.OnClickListener OnClickUser = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            getSupportFragmentManager().beginTransaction()
+                    .addToBackStack(null)
+                    .add(R.id.fragment_container, SummonerNameFragment.newInstance())
+                    .commit();
+            drawerLayout.closeDrawers();
+            toggle.syncState();
+        }
+    };
 }

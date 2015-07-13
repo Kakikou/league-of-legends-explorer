@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">League Of Legends Explorer</string>
+    <string name="app_name" translatable="false">League Of Legends Explorer</string>
 
     <string name="action_settings">Settings</string>
 
@@ -30,5 +30,12 @@
     <!-- Drawer -->
     <string name="menu_champions">Champions</string>
     <string name="history_games">History games</string>
+    <!-- -->
+
+    <!-- SummonerNameFragment -->
+    <string name="name_summoner">Summoner name...</string>
+    <string name="search_summoner">Search Summoner</string>
+    <string name="level">Level</string>
+    <string name="league_points">League Points</string>
     <!-- -->
 </resources>

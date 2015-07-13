@@ -67,4 +67,13 @@ public class DragonMagicServer {
                 championName,
                 nbSkin);
     }
+
+    public String getProfileIconUrl(String nb) {
+        return String.format(
+                "%s/%s/img/profileicon/%s.png",
+                sharedPreferences.getString(URL_CDN, "http://ddragon.leagueoflegends.com/cdn"),
+                sharedPreferences.getString(VERSION, "5.13.1"),
+                nb);
+    }
+// http://ddragon.leagueoflegends.com/cdn/5.2.1/img/profileicon/588.png
 }
