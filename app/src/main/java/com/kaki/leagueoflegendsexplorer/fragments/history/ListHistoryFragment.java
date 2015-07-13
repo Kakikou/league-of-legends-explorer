@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.Transition;
@@ -39,7 +40,8 @@ import retrofit.client.Response;
 /**
  * Created by kevinrodrigues on 09/07/15.
  */
-public class ListHistoryFragment extends Fragment implements HistoryAdapter.OnClickCardListener {
+public class ListHistoryFragment extends Fragment implements HistoryAdapter.OnClickCardListener,
+        SwipeRefreshLayout.OnRefreshListener {
 
     private GameApi gameApi;
     private MatchApi matchApi;
@@ -49,6 +51,8 @@ public class ListHistoryFragment extends Fragment implements HistoryAdapter.OnCl
 
     @Bind(R.id.recyclerview)
     RecyclerView recyclerView;
+    @Bind(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     public static ListHistoryFragment newInstance() {
         return new ListHistoryFragment();
@@ -74,17 +78,10 @@ public class ListHistoryFragment extends Fragment implements HistoryAdapter.OnCl
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(historyAdapter);
-        gameApi.getMatch(getActivity(), new HttpRequest<RecentGamesDto>() {
-            @Override
-            public void success(RecentGamesDto recentGamesDto, Response response) {
-                historyAdapter.setDatas(recentGamesDto.games);
-                historyAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-            }
-        });
+        swipeRefreshLayout.measure(0, 0);
+        swipeRefreshLayout.setRefreshing(true);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        onRefresh();
     }
 
     @Override
@@ -107,6 +104,23 @@ public class ListHistoryFragment extends Fragment implements HistoryAdapter.OnCl
         } catch (ClassCastException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        gameApi.getMatch(getActivity(), new HttpRequest<RecentGamesDto>() {
+            @Override
+            public void success(RecentGamesDto recentGamesDto, Response response) {
+                historyAdapter.setDatas(recentGamesDto.games);
+                historyAdapter.notifyDataSetChanged();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     @Override

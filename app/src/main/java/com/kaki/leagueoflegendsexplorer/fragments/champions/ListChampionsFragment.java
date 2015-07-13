@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -33,7 +34,8 @@ import retrofit.client.Response;
 /**
  * Created by kevinrodrigues on 04/07/15.
  */
-public class ListChampionsFragment extends Fragment implements ChampionsAdapter.OnTouchChampionListener {
+public class ListChampionsFragment extends Fragment implements ChampionsAdapter.OnTouchChampionListener,
+        SwipeRefreshLayout.OnRefreshListener {
 
     private ChampionV12Api m_championV12Api;
     private StaticDataApi m_staticDataApi;
@@ -41,6 +43,8 @@ public class ListChampionsFragment extends Fragment implements ChampionsAdapter.
     private LaunchFragment m_launchFragment;
     private ToolbarInteraction toolbarInteraction;
 
+    @Bind(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.recyclerview)
     RecyclerView m_recyclerview;
 
@@ -68,8 +72,10 @@ public class ListChampionsFragment extends Fragment implements ChampionsAdapter.
         m_recyclerview.setAdapter(m_adapter);
         m_recyclerview.setHasFixedSize(true);
         m_recyclerview.setLayoutManager(layoutManager);
-        m_championV12Api.getFreeChampList(getActivity(), OnGetFreeChampionList);
-        m_staticDataApi.getChampionImageList(getActivity(), OnGetChampionList);
+        swipeRefreshLayout.measure(0, 0);
+        swipeRefreshLayout.setRefreshing(true);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        onRefresh();
     }
 
     @Override
@@ -107,19 +113,27 @@ public class ListChampionsFragment extends Fragment implements ChampionsAdapter.
         m_launchFragment.addFragment(fragment);
     }
 
+    @Override
+    public void onRefresh() {
+        m_championV12Api.getFreeChampList(getActivity(), OnGetFreeChampionList);
+        m_staticDataApi.getChampionImageList(getActivity(), OnGetChampionList);
+    }
+
     private HttpRequest<ChampionListDto> OnGetChampionList = new HttpRequest<ChampionListDto>() {
         @Override
         public void success(ChampionListDto championListDto, Response response) {
+            m_adapter.clean();
             for (Map.Entry<String, ChampionDto> entry : championListDto.data.entrySet()) {
                 m_adapter.add(entry.getValue());
             }
             m_adapter.sortChamp();
             m_adapter.notifyDataSetChanged();
+            swipeRefreshLayout.setRefreshing(false);
         }
 
         @Override
         public void failure(RetrofitError error) {
-
+            swipeRefreshLayout.setRefreshing(false);
         }
     };
 

@@ -50,6 +50,11 @@ public class ChampionsAdapter extends RecyclerView.Adapter<ChampionsAdapter.View
         m_listChampions.add(championDto);
     }
 
+    public void clean() {
+        m_listChampions.clear();
+        m_freeList.clear();
+    }
+
     public void sortChamp() {
         Collections.sort(m_listChampions, new Comparator<ChampionDto>() {
             @Override
@@ -65,25 +70,6 @@ public class ChampionsAdapter extends RecyclerView.Adapter<ChampionsAdapter.View
                 return true;
         }
         return false;
-    }
-
-    private void animTextView(View view) {
-        AnimatorSet anim = new AnimatorSet();
-
-        anim.setDuration(2000);
-        anim.play(ObjectAnimator.ofFloat(view, View.ROTATION, 0, -45));
-        anim.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-                super.onAnimationStart(animation);
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-            }
-        });
-        anim.start();
     }
 
     @Override
