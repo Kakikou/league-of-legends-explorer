@@ -13,6 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.kaki.leagueoflegendsexplorer.BuildConfig;
 import com.kaki.leagueoflegendsexplorer.R;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionDto;
 import com.kaki.leagueoflegendsexplorer.fragments.champions.Detail.LoreChampion;
@@ -41,6 +44,8 @@ public class DetailChampionsFragment extends Fragment {
     TabLayout tabLayout;
     @Bind(R.id.viewpager)
     ViewPager viewPager;
+    @Bind(R.id.adView)
+    AdView adView;
 
     public static DetailChampionsFragment newInstance(ChampionDto championDto) {
         DetailChampionsFragment fragment = new DetailChampionsFragment();
@@ -71,6 +76,11 @@ public class DetailChampionsFragment extends Fragment {
         detailAdapter.addFragment(SkinChampion.newInstance(m_champion), SkinChampion.TITLE_TAB);
         viewPager.setAdapter(detailAdapter);
         tabLayout.setupWithViewPager(viewPager);
+        if (BuildConfig.DEBUG) {
+            adView.loadAd(new AdRequest.Builder().addTestDevice("EB8221CB516E6DF24EBDF773A0279B36").build());
+        } else {
+            adView.loadAd(new AdRequest.Builder().build());
+        }
     }
 
     @Override

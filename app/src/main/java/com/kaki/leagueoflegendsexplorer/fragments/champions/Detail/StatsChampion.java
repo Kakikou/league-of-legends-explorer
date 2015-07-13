@@ -44,8 +44,6 @@ public class StatsChampion extends Fragment {
     RoundCornerProgressBar abilityBar;
     @Bind(R.id.difficulty_bar)
     RoundCornerProgressBar difficultyBar;
-    @Bind(R.id.adView)
-    AdView adView;
 
     public static StatsChampion newInstance(ChampionDto championDto) {
         StatsChampion fragment = new StatsChampion();
@@ -69,11 +67,6 @@ public class StatsChampion extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
         initFields();
-        if (BuildConfig.DEBUG) {
-            adView.loadAd(new AdRequest.Builder().addTestDevice("EB8221CB516E6DF24EBDF773A0279B36").build());
-        } else {
-            adView.loadAd(new AdRequest.Builder().build());
-        }
     }
 
     @Override
