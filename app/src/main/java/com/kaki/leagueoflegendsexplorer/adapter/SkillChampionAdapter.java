@@ -2,7 +2,6 @@ package com.kaki.leagueoflegendsexplorer.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import com.kaki.leagueoflegendsexplorer.R;
 import com.kaki.leagueoflegendsexplorer.api.riot.UrlImage;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionDto;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionSpellDto;
-import com.kaki.leagueoflegendsexplorer.fragments.champions.Detail.SkillsChampion;
 import com.kaki.leagueoflegendsexplorer.utils.DragonMagicServer;
 import com.squareup.picasso.Picasso;
 

@@ -4,11 +4,9 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,7 +16,7 @@ import com.kaki.leagueoflegendsexplorer.api.riot.UrlImage;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionDto;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.SkinDto;
 import com.kaki.leagueoflegendsexplorer.interaction.LaunchFragment;
-import com.kaki.leagueoflegendsexplorer.interaction.ToolbarInteraction;
+import com.kaki.leagueoflegendsexplorer.utils.DragonMagicServer;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
@@ -36,6 +34,7 @@ public class SkinChampion extends Fragment {
 
     private ChampionDto champion;
     private LaunchFragment launchFragment;
+    private DragonMagicServer dragonMagicServer;
 
     public static SkinChampion newInstance(ChampionDto championDto) {
         SkinChampion fragment = new SkinChampion();
@@ -46,6 +45,7 @@ public class SkinChampion extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        dragonMagicServer = new DragonMagicServer(getActivity());
     }
 
     @Nullable
@@ -92,7 +92,7 @@ public class SkinChampion extends Fragment {
             ImageView imageView = (ImageView) view.findViewById(R.id.image_skin);
             TextView textView = (TextView) view.findViewById(R.id.name_skin);
             Picasso.with(imageView.getContext())
-                    .load(UrlImage.CHAMPION_SCREEN_ART_URL + champion.name + "_" + skin.num + ".jpg")
+                    .load(dragonMagicServer.getScreenArtChampion(champion.name, skin.num))
                     .into(imageView);
             textView.setText(skin.name);
             skinLayout.addView(view);

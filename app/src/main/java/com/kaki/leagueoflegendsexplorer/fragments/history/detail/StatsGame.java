@@ -10,14 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.kaki.leagueoflegendsexplorer.R;
-import com.kaki.leagueoflegendsexplorer.api.HttpRequest;
 import com.kaki.leagueoflegendsexplorer.api.riot.UrlImage;
-import com.kaki.leagueoflegendsexplorer.api.riot.game.models.GameDto;
 import com.kaki.leagueoflegendsexplorer.api.riot.match.models.MatchDetail;
-import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.models.MatchSummary;
 import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.models.Participant;
 import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.models.ParticipantIdentity;
-import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.models.Player;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.StaticDataApi;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionDto;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.items.ItemDto;
@@ -28,8 +24,6 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 /**
  * Created by kevinrodrigues on 10/07/15.

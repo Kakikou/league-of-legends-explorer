@@ -1,25 +1,17 @@
 package com.kaki.leagueoflegendsexplorer.adapter;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.kaki.leagueoflegendsexplorer.R;
 import com.kaki.leagueoflegendsexplorer.api.riot.UrlImage;
 import com.kaki.leagueoflegendsexplorer.api.riot.game.models.GameDto;
-import com.kaki.leagueoflegendsexplorer.api.riot.game.models.RecentGamesDto;
-import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.models.MatchSummary;
-import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.models.Participant;
-import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.models.ParticipantIdentity;
-import com.kaki.leagueoflegendsexplorer.api.riot.matchhistory.models.Player;
 import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.ChampionDto;
 import com.kaki.leagueoflegendsexplorer.utils.CacheChampions;
 import com.kaki.leagueoflegendsexplorer.utils.DragonMagicServer;
@@ -27,7 +19,6 @@ import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 

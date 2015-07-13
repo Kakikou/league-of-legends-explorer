@@ -75,5 +75,13 @@ public class DragonMagicServer {
                 sharedPreferences.getString(VERSION, "5.13.1"),
                 nb);
     }
+
+    public String getScreenArtChampion(String championName, int nbSkin) {
+        return String.format(
+                "%s/img/champion/loading/%s_%d.jpg",
+                sharedPreferences.getString(URL_CDN, "http://ddragon.leagueoflegends.com/cdn"),
+                championName,
+                nbSkin);
+    }
 // http://ddragon.leagueoflegends.com/cdn/5.2.1/img/profileicon/588.png
 }
