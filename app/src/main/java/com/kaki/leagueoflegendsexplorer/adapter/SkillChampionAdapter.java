@@ -2,6 +2,7 @@ package com.kaki.leagueoflegendsexplorer.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +67,7 @@ public class SkillChampionAdapter extends RecyclerView.Adapter<SkillChampionAdap
         }
         holder.description.setText(skill.description + "\n" + skill.sanitizedDescription);
         Picasso.with(holder.itemView.getContext())
-                .load(url + skill.image.full)
+                .load(url)
                 .into(holder.image);
     }
 

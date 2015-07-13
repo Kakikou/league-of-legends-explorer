@@ -21,19 +21,26 @@
                 card_view:cardCornerRadius="8dp"
                 card_view:cardElevation="2dp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="Allies tips"
-                    android:textSize="30sp" />
-
                 <LinearLayout
-                    android:id="@+id/tips_for_champion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="Allies tips"
+                        android:textSize="30sp" />
+
+                    <LinearLayout
+                        android:id="@+id/tips_for_champion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+
+                </LinearLayout>
 
             </android.support.v7.widget.CardView>
 
@@ -44,18 +51,25 @@
                 card_view:cardCornerRadius="8dp"
                 card_view:cardElevation="2dp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Enemy tips"
-                    android:textSize="30sp" />
-
                 <LinearLayout
-                    android:id="@+id/tips_against_champion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Enemy tips"
+                        android:textSize="30sp" />
+
+                    <LinearLayout
+                        android:id="@+id/tips_against_champion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+
+                </LinearLayout>
 
             </android.support.v7.widget.CardView>
 
