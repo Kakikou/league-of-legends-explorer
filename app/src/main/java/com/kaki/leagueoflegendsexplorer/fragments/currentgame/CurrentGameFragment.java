@@ -57,9 +57,9 @@ public class CurrentGameFragment extends Fragment {
     @Bind(R.id.game_queue_config)
     TextView gameQueue;
     @Bind(R.id.card_view_team1)
-    View cardViewTeam1;
+    CardView cardViewTeam1;
     @Bind(R.id.card_view_team2)
-    View cardViewTeam2;
+    CardView cardViewTeam2;
     @Bind(R.id.layout_team_1)
     LinearLayout layoutTeam1;
     @Bind(R.id.layout_team_2)
@@ -130,6 +130,7 @@ public class CurrentGameFragment extends Fragment {
     }
 
     private void populateTeam() {
+        long nbTeamPlayer = 100;
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         for (Player player : listPlayer) {
             ChampionDto championDto = cacheChampions.getChampion((int) player.currentGameParticipant.championId);
@@ -140,6 +141,8 @@ public class CurrentGameFragment extends Fragment {
             TextView textRanking = (TextView) view.findViewById(R.id.text_ranking);
             TextView nameChamp = (TextView) view.findViewById(R.id.name_champion);
 
+            if (player.ranking == null)
+                player.ranking = Ranking.getRanking("", "");
             nameChamp.setText(championDto.name);
             namePlayer.setText(player.currentGameParticipant.summonerName);
             textRanking.setText(player.ranking.tier + " " + player.ranking.division);
@@ -149,16 +152,22 @@ public class CurrentGameFragment extends Fragment {
                     .into(imageChamp);
             if (Long.toString(player.currentGameParticipant.summonerId).equals(summonerProfile.getSummonerId())) {
                 view.setCardBackgroundColor(getResources().getColor(R.color.green_white));
+                nbTeamPlayer = player.currentGameParticipant.teamId;
             }
 
             if (player.currentGameParticipant.teamId == 100) {
-                cardViewTeam1.setVisibility(View.VISIBLE);
                 layoutTeam1.addView(view);
             } else {
-                cardViewTeam2.setVisibility(View.VISIBLE);
                 layoutTeam2.addView(view);
             }
         }
+        if (nbTeamPlayer == 100) {
+            cardViewTeam1.setCardBackgroundColor(getResources().getColor(R.color.blue_white));
+        } else {
+            cardViewTeam2.setCardBackgroundColor(getResources().getColor(R.color.green_white));
+        }
+        cardViewTeam1.setVisibility(View.VISIBLE);
+        cardViewTeam2.setVisibility(View.VISIBLE);
     }
 
     private HttpRequest<CurrentGameInfo> OnGetCurrentGame = new HttpRequest<CurrentGameInfo>() {

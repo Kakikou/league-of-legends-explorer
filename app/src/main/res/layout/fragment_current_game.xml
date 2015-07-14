@@ -63,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                card_view:cardBackgroundColor="@color/blue_white"
+                card_view:cardBackgroundColor="@color/red_white"
                 card_view:cardCornerRadius="8dp"
                 card_view:cardElevation="3dp">
 
@@ -80,7 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                card_view:cardBackgroundColor="@color/purple_white"
+                card_view:cardBackgroundColor="@color/red_white"
                 card_view:cardCornerRadius="8dp"
                 card_view:cardElevation="3dp">
 
