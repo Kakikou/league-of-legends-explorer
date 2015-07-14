@@ -35,7 +35,8 @@ public enum Ranking {
     DIAMOND_III(R.drawable.diamond_iii, "DIAMOND", "III"),
     DIAMOND_IV(R.drawable.diamond_iv, "DIAMOND", "IV"),
     DIAMOND_V(R.drawable.diamond_v, "DIAMOND", "V"),
-    MASTER(R.drawable.master, "MASTER", "");
+    MASTER(R.drawable.master, "MASTER", ""),
+    CHALLENGER(R.drawable.challenger, "CHALLENGER", "I");
 
     @DrawableRes
     public final int img;
