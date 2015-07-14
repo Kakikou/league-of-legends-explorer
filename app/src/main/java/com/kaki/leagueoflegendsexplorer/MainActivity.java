@@ -85,7 +85,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void launchFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
-                .addToBackStack(null)
                 .replace(R.id.fragment_container, fragment)
                 .commit();
     }
