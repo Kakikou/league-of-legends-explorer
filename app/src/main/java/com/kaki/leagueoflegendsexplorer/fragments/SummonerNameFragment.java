@@ -149,6 +149,7 @@ public class SummonerNameFragment extends Fragment {
         loseSummoner.setText(summonerProfile.getSummonerLose() + " L");
         rankedIcon.setImageResource(ranking.img);
         animateRankedLayout();
+        updateDrawerListener.updateDrawer();
     }
 
     private void animateRankedLayout() {
@@ -194,13 +195,11 @@ public class SummonerNameFragment extends Fragment {
                     }
                 }
             }
-            updateDrawerListener.updateDrawer();
             populateSummoner();
         }
 
         @Override
         public void failure(RetrofitError error) {
-            updateDrawerListener.updateDrawer();
             populateSummoner();
         }
     };

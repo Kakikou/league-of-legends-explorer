@@ -100,42 +100,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void setTitle(String title) {
-        ActionBar actionBar = getSupportActionBar();
-
-        if (actionBar != null) {
-            actionBar.setTitle(title);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(title);
         }
     }
 
     @Override
     public void showBar() {
-        ActionBar actionBar = getSupportActionBar();
-
-        if (actionBar != null) {
-            actionBar.show();
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().show();
         }
     }
 
     @Override
     public void hideBar() {
-        ActionBar actionBar = getSupportActionBar();
-
-        if (actionBar != null) {
-            actionBar.hide();
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
         }
     }
 
     @Override
     public void updateDrawer() {
+        Ranking ranking = Ranking.getRanking(summonerProfile.getSummonerTier(), summonerProfile.getSummonerDivision());
+        nameNavigationViewHeader.setText(summonerProfile.getSummonerName());
+        rankingNavigationViewHeader.setText(ranking.tier + " " + ranking.division);
+        rankingImageNavigationViewHeader.setImageResource(ranking.img);
         if (summonerProfile.getSummonerName().length() != 0) {
-            Ranking ranking = Ranking.getRanking(summonerProfile.getSummonerTier(), summonerProfile.getSummonerDivision());
-            nameNavigationViewHeader.setText(summonerProfile.getSummonerName());
-            rankingNavigationViewHeader.setText(ranking.tier + " " + ranking.division);
-            rankingImageNavigationViewHeader.setImageResource(ranking.img);
-
             Picasso.with(this)
                     .load(dragonMagicServer.getProfileIconUrl(summonerProfile.getSummonerIcon()))
                     .into(iconNavigationViewHeader);
+        } else {
+            iconNavigationViewHeader.setImageResource(R.drawable.profile_icon_sample);
         }
     }
 

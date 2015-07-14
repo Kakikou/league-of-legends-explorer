@@ -181,7 +181,11 @@ public class CurrentGameFragment extends Fragment {
         @Override
         public void failure(RetrofitError error) {
             if (error.getResponse() != null && error.getResponse().getStatus() == 404) {
-                gameType.setText(getString(R.string.player_not_in_game, summonerProfile.getSummonerName()));
+                if (summonerProfile.getSummonerName().length() == 0) {
+                    gameType.setText(R.string.no_player);
+                } else {
+                    gameType.setText(getString(R.string.player_not_in_game, summonerProfile.getSummonerName()));
+                }
                 gameQueue.setText("");
             }
         }

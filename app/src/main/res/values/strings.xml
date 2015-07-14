@@ -43,5 +43,6 @@
 
     <!-- CurrentGameFragment -->
     <string name="player_not_in_game">%s is not in game</string>
+    <string name="no_player">You have to set a summoner</string>
     <!-- -->
 </resources>
