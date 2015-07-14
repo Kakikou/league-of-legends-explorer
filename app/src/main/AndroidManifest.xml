@@ -40,6 +40,9 @@
             android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:theme="@android:style/Theme.Translucent" />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="9adea1f5afec4d059bf657ee3b42d464382d3054" />
     </application>
 
 </manifest>
