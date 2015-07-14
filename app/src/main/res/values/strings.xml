@@ -39,4 +39,8 @@
     <string name="level">Level</string>
     <string name="league_points">League Points</string>
     <!-- -->
+
+    <!-- CurrentGameFragment -->
+    <string name="player_not_in_game">%s is not in game</string>
+    <!-- -->
 </resources>

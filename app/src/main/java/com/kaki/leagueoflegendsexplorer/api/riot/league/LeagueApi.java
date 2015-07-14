@@ -44,21 +44,49 @@ public class LeagueApi {
 
             @Override
             public void failure(RetrofitError error) {
-                if (error.getResponse() == null) {
-                    Toast.makeText(context, R.string.no_internet, Toast.LENGTH_LONG).show();
-                } else {
-                    switch (error.getResponse().getStatus()) {
-                        case 400:
-                        case 401:
-                        case 429:
-                        case 500:
-                        case 503:
-                            Toast.makeText(context, R.string.error_with_server, Toast.LENGTH_LONG).show();
-                            break;
-                    }
-                }
+                handleError(context, error);
                 request.failure(error);
             }
         });
+    }
+
+    public void getLeagueBySummonerId(final Context context, final String[] id, final HttpRequest<Map<String, List<LeagueDto>>> request) {
+        String ids = new String();
+        for (int i = 0; i < id.length; i++) {
+            if (id[i] == null)
+                continue;
+            ids = ids + id[i];
+            if (i != id.length - 1)
+                ids = ids + ",";
+        }
+        api.getLeagueBySummonerId("euw", ids, new Callback<Map<String, List<LeagueDto>>>() {
+            @Override
+            public void success(Map<String, List<LeagueDto>> stringListMap, Response response) {
+                Log.d("response", response.getBody().toString());
+                request.success(stringListMap, response);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                handleError(context, error);
+                request.failure(error);
+            }
+        });
+    }
+
+    private void handleError(Context context, RetrofitError error) {
+        if (error.getResponse() == null) {
+            Toast.makeText(context, R.string.no_internet, Toast.LENGTH_LONG).show();
+        } else {
+            switch (error.getResponse().getStatus()) {
+                case 400:
+                case 401:
+                case 429:
+                case 500:
+                case 503:
+                    Toast.makeText(context, R.string.error_with_server, Toast.LENGTH_LONG).show();
+                    break;
+            }
+        }
     }
 }
