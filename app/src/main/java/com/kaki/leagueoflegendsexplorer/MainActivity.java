@@ -19,6 +19,7 @@ import com.kaki.leagueoflegendsexplorer.api.riot.staticdata.models.champions.Cha
 import com.kaki.leagueoflegendsexplorer.enums.Ranking;
 import com.kaki.leagueoflegendsexplorer.fragments.SummonerNameFragment;
 import com.kaki.leagueoflegendsexplorer.fragments.champions.ListChampionsFragment;
+import com.kaki.leagueoflegendsexplorer.fragments.currentgame.CurrentGameFragment;
 import com.kaki.leagueoflegendsexplorer.fragments.history.ListHistoryFragment;
 import com.kaki.leagueoflegendsexplorer.interaction.LaunchFragment;
 import com.kaki.leagueoflegendsexplorer.interaction.ToolbarInteraction;
@@ -152,6 +153,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.navigation_item_history:
                 //setTitle();
                 launchFragment(ListHistoryFragment.newInstance());
+                break;
+            case R.id.navigation_item_current_game:
+                launchFragment(CurrentGameFragment.newInstance());
                 break;
             default:
                 break;

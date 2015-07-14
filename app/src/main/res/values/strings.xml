@@ -30,6 +30,7 @@
     <!-- Drawer -->
     <string name="menu_champions">Champions</string>
     <string name="history_games">History games</string>
+    <string name="current_game">Current game</string>
     <!-- -->
 
     <!-- SummonerNameFragment -->

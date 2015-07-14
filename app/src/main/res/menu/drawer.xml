@@ -6,9 +6,12 @@
             android:title="@string/search_summoner" />
         <item
             android:id="@+id/navigation_item_champion"
-            android:title="@string/menu_champions"/>
+            android:title="@string/menu_champions" />
         <item
             android:id="@+id/navigation_item_history"
-            android:title="@string/history_games"/>
+            android:title="@string/history_games" />
+        <item
+            android:id="@+id/navigation_item_current_game"
+            android:title="@string/current_game" />
     </group>
 </menu>
