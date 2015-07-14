@@ -124,7 +124,13 @@ public class SummonerNameFragment extends Fragment {
     @OnClick(R.id.search_button)
     void onClickSearchButton() {
         String name = textInputName.getEditText().getText().toString();
-        summonerApi.getSummonerByName(getActivity(), name, OnGetSummoner);
+        if (name.length() == 0) {
+            summonerProfile.clean();
+            textInputName.setError(getString(R.string.no_name));
+            populateSummoner();
+        } else {
+            summonerApi.getSummonerByName(getActivity(), name, OnGetSummoner);
+        }
     }
 
     private void populateSummoner() {

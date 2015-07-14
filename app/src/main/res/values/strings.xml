@@ -38,6 +38,7 @@
     <string name="search_summoner">Search Summoner</string>
     <string name="level">Level</string>
     <string name="league_points">League Points</string>
+    <string name="no_name">Summoner name can not been empty</string>
     <!-- -->
 
     <!-- CurrentGameFragment -->

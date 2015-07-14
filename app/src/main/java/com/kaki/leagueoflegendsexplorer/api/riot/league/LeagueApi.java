@@ -51,15 +51,15 @@ public class LeagueApi {
     }
 
     public void getLeagueBySummonerId(final Context context, final String[] id, final HttpRequest<Map<String, List<LeagueDto>>> request) {
-        String ids = new String();
+        String idSummoner = new String();
         for (int i = 0; i < id.length; i++) {
             if (id[i] == null)
                 continue;
-            ids = ids + id[i];
+            idSummoner = idSummoner + id[i];
             if (i != id.length - 1)
-                ids = ids + ",";
+                idSummoner = idSummoner + ",";
         }
-        api.getLeagueBySummonerId("euw", ids, new Callback<Map<String, List<LeagueDto>>>() {
+        api.getLeagueBySummonerId("euw", idSummoner, new Callback<Map<String, List<LeagueDto>>>() {
             @Override
             public void success(Map<String, List<LeagueDto>> stringListMap, Response response) {
                 Log.d("response", response.getBody().toString());
