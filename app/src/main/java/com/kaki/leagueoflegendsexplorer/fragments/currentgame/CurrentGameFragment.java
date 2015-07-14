@@ -20,6 +20,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.kaki.leagueoflegendsexplorer.BuildConfig;
 import com.kaki.leagueoflegendsexplorer.R;
 import com.kaki.leagueoflegendsexplorer.api.HttpRequest;
 import com.kaki.leagueoflegendsexplorer.api.riot.current_game.CurrentGameApi;
@@ -61,6 +64,8 @@ public class CurrentGameFragment extends Fragment {
     LinearLayout layoutTeam1;
     @Bind(R.id.layout_team_2)
     LinearLayout layoutTeam2;
+    @Bind(R.id.adView)
+    AdView adView;
 
     private LeagueApi leagueApi;
     private CurrentGameApi currentGameApi;
@@ -97,6 +102,12 @@ public class CurrentGameFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+
+        if (BuildConfig.DEBUG) {
+            adView.loadAd(new AdRequest.Builder().addTestDevice("EB8221CB516E6DF24EBDF773A0279B36").build());
+        } else {
+            adView.loadAd(new AdRequest.Builder().build());
+        }
 
         mainAnimation = new AnimatorSet();
         ObjectAnimator animatorGameType = ObjectAnimator.ofFloat(gameType, View.TRANSLATION_X, 800, -800);
