@@ -31,6 +31,7 @@ import com.kaki.leagueoflegendsexplorer.fragments.champions.Detail.StatsChampion
 import com.kaki.leagueoflegendsexplorer.fragments.history.detail.StatsGame;
 import com.kaki.leagueoflegendsexplorer.interaction.LaunchFragment;
 import com.kaki.leagueoflegendsexplorer.interaction.ToolbarInteraction;
+import com.kaki.leagueoflegendsexplorer.utils.SummonerProfile;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -44,7 +45,7 @@ public class ListHistoryFragment extends Fragment implements HistoryAdapter.OnCl
         SwipeRefreshLayout.OnRefreshListener {
 
     private GameApi gameApi;
-    private MatchApi matchApi;
+    private SummonerProfile summonerProfile;
     private HistoryAdapter historyAdapter;
     private LaunchFragment m_launchFragment;
     private ToolbarInteraction toolbarInteraction;
@@ -62,7 +63,7 @@ public class ListHistoryFragment extends Fragment implements HistoryAdapter.OnCl
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         historyAdapter = new HistoryAdapter(getActivity(), this);
-        matchApi = new MatchApi(getActivity());
+        summonerProfile = new SummonerProfile(getActivity());
     }
 
     @Nullable
@@ -108,7 +109,10 @@ public class ListHistoryFragment extends Fragment implements HistoryAdapter.OnCl
 
     @Override
     public void onRefresh() {
-        gameApi.getMatch(getActivity(), new HttpRequest<RecentGamesDto>() {
+        // TODO Handle when user don't give summoner
+        if (summonerProfile.getSummonerId().equals(""))
+            return;
+        gameApi.getMatch(getActivity(), Long.parseLong(summonerProfile.getSummonerId()), new HttpRequest<RecentGamesDto>() {
             @Override
             public void success(RecentGamesDto recentGamesDto, Response response) {
                 historyAdapter.setDatas(recentGamesDto.games);

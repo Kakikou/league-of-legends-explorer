@@ -31,9 +31,8 @@ public class MatchHistoryApi {
         m_api = restAdapter.create(MatchHistoryRoutes.class);
     }
 
-    public void getMatch(final Context context, final HttpRequest<PlayerHistory> request) {
-        // TODO Add id of player
-        m_api.getMatch("euw", 22812174, 0, 15, new Callback<PlayerHistory>() {
+    public void getMatch(final Context context, final long summonerId, final HttpRequest<PlayerHistory> request) {
+        m_api.getMatch("euw", summonerId, 0, 15, new Callback<PlayerHistory>() {
             @Override
             public void success(PlayerHistory playerHistory, Response response) {
                 Log.d("response", response.getBody().toString());

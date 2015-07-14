@@ -31,8 +31,8 @@ public class GameApi {
         api = restAdapter.create(GameRoutes.class);
     }
 
-    public void getMatch(final Context context, final HttpRequest<RecentGamesDto> request) {
-        api.getGames("euw", 22812174, new Callback<RecentGamesDto>() {
+    public void getMatch(final Context context, final long summonerId, final HttpRequest<RecentGamesDto> request) {
+        api.getGames("euw", summonerId, new Callback<RecentGamesDto>() {
             @Override
             public void success(RecentGamesDto recentGamesDto, Response response) {
                 Log.d("response", response.getBody().toString());
